@@ -10,10 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
+model Book {
   id         Int        @id @default(autoincrement())
   createdAt  DateTime   @default(now())
   title      String
-  published  Boolean    @default(false)
   author  String
 }

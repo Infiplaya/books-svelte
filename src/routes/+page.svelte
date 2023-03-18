@@ -20,6 +20,7 @@
 		<div>{book.author}</div>
 		<div>{book.description}</div>
 		<form action="?/addToFinished" method="POST">
+			<input type="hidden" value={book.id} id="id" name="id" />
 			<button type="submit">Favorites</button>
 		</form>
 	</div>

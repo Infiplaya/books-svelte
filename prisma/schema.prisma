@@ -10,7 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Session {
   id             String @id @unique
   user_id        String
@@ -23,13 +22,13 @@ model Session {
 }
 
 model User {
-  id       String    @id @unique
-  name     String
-  username String @unique
-  session  Session[]
-  Key      Key[]
-  // here you can add custom fields for your user
-  // e.g. name, email, username, roles, etc.
+  id           String    @id @unique
+  name         String
+  username     String    @unique
+  session      Session[]
+  Key          Key[]
+  readingList  Book[]    @relation("Want Read")
+  finishedList Book[]    @relation("Finished")
 
   @@map("user")
 }
@@ -47,8 +46,11 @@ model Key {
 }
 
 model Book {
-  id         Int        @id @default(autoincrement())
-  createdAt  DateTime   @default(now())
-  title      String
-  author  String
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  title       String
+  author      String
+  description String
+  usersWantRead   User[]   @relation("Want Read")
+  usersFinished    User[]   @relation("Finished")
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	export let data: PageData;
-	import { enhance } from '$app/forms';
+	import BookCard from "../../BookCard.svelte";
 	$: ({book, userLists} = data)
 
 </script>
@@ -12,41 +12,7 @@
 </svelte:head>
 
 <section class="books">
-	<div class="book-card">
-		<h2>{book.title}</h2>
-		<div>{book.author}</div>
-		<div>{book.description}</div>
-		{#if userLists?.finishedList.map((item) => item.id).includes(book.id)}
-		<form action="?/removeFromFinishedList" method="POST" use:enhance>
-			<input type="hidden" value={book.id} id="id" name="id" />
-			<button type="submit">
-				Finished
-			</button>
-		</form>
-		{:else}
-		<form action="?/addToFinishedList" method="POST" use:enhance>
-			<input type="hidden" value={book.id} id="id" name="id" />
-			<button type="submit">
-				Mark as finished
-			</button>
-		</form>
-		{/if}
-		{#if userLists?.readingList.map((item) => item.id).includes(book.id)}
-		<form action="?/removeFromReadingList" method="POST" use:enhance>
-			<input type="hidden" value={book.id} id="id" name="id" />
-			<button type="submit">
-				in readlist
-			</button>
-		</form>
-		{:else}
-		<form action="?/addToReadingList" method="POST" use:enhance>
-			<input type="hidden" value={book.id} id="id" name="id" />
-			<button type="submit">
-				Add to reading list
-			</button>
-		</form>
-		{/if}
-	</div>
+	<BookCard book={book} userLists={userLists}/>
  </section>
 
 
@@ -59,37 +25,13 @@
 		flex: 0.6;
 	}
 
-	h1 {
-		width: 100%;
-	}
-
-	h2 {
-		font-size: 28px;
-	}
-
-	.book-form {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-
 	.books {
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
 	}
 
-	.book-card {
-		background-color: aquamarine;
-		padding: 40px;
-		border-radius: 20px;
-		width: 200px;
-		min-height: 150px;
-	}
 
-	textarea {
-		min-height: 200px;
-		min-width: 350px;
-	}
+
 
 </style>

@@ -46,11 +46,12 @@ model Key {
 }
 
 model Book {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  title       String
-  author      String
-  description String
-  usersWantRead   User[]   @relation("Want Read")
-  usersFinished    User[]   @relation("Finished")
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  title         String
+  author        String
+  description   String
+  image         String
+  usersWantRead User[]   @relation("Want Read")
+  usersFinished User[]   @relation("Finished")
 }

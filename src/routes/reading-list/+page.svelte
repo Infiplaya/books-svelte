@@ -2,7 +2,7 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	export let data: PageData;
-	import { enhance } from '$app/forms';
+	import BookCard from "../BookCard.svelte";
 	$: ({userLists} = data)
     $: readingList = userLists!.readingList
 
@@ -18,26 +18,7 @@
 
  <section class="books">
 	{#each readingList as book}
-	<div class="book-card">
-		<h2>{book.title}</h2>
-		<div>{book.author}</div>
-		<div>{book.description}</div>
-		{#if userLists?.readingList.map((item) => item.id).includes(book.id)}
-		<form action="?/removeFromReadingList" method="POST" use:enhance>
-			<input type="hidden" value={book.id} id="id" name="id" />
-			<button type="submit">
-				Remove from readlist
-			</button>
-		</form>
-		{:else}
-		<form action="?/addToReadingList" method="POST" use:enhance>
-			<input type="hidden" value={book.id} id="id" name="id" />
-			<button type="submit">
-				Add to reading list
-			</button>
-		</form>
-		{/if}
-	</div>
+	<BookCard book={book} userLists={userLists} />
 	{/each}
  </section>
 </section>

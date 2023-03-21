@@ -18,30 +18,6 @@ export const load: ServerLoad = async ({ locals }) => {
 };
 
 export const actions: Actions = {
-	createBook: async ({ request }) => {
-		const { title, author, description } = Object.fromEntries(await request.formData()) as {
-			title: string;
-			author: string;
-			description: string;
-		};
-
-		try {
-			await prisma.book.create({
-				data: {
-					title,
-					author,
-					description
-				}
-			});
-		} catch (err) {
-			console.error(err);
-			return fail(500, { message: 'Could not add this book' });
-		}
-		return {
-			status: 301
-		};
-	},
-
 	/* Finished books list */
 	addToFinishedList: async ({ request, locals }) => {
 		// Get the current user

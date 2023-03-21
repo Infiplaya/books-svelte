@@ -10,7 +10,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"db-seed": "NODE_ENV=development prisma db seed"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
@@ -38,7 +39,11 @@
 		"@lucia-auth/adapter-prisma": "^0.6.0",
 		"@lucia-auth/sveltekit": "^0.6.10",
 		"@prisma/client": "^4.11.0",
+		"cross-fetch": "^3.1.5",
 		"lucia-auth": "^0.9.1",
 		"prisma": "^4.11.0"
+	},
+	"prisma": {
+		"seed": "tsx prisma/seed.ts"
 	}
 }

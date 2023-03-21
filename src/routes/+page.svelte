@@ -3,6 +3,7 @@
 	import BookCard from "./BookCard.svelte";
 	export let data: PageData;
 	$: ({books, userLists} = data)
+	$: console.log(userLists)
 
 </script>
 
@@ -29,34 +30,12 @@
 		flex: 0.6;
 	}
 
-	h1 {
-		width: 100%;
-	}
-
-	h2 {
-		font-size: 28px;
-	}
-
-
 	.books {
 		display: flex;
 		flex-direction: column;
 		gap: 40px;
 	}
 
-	.book-card {
-		background-color: aquamarine;
-		padding: 40px;
-		border-radius: 20px;
-		width: 400px;
-		min-height: 150px;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.book-img {
-		align-self: center;
-	}
 
 
 </style>

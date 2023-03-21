@@ -10,21 +10,26 @@ export const load: ServerLoad = async ({ params, locals }) => {
 		}
 	});
 
-	const userLists = await prisma.user.findUnique({
-		where: {
-			id: user!.userId
-		},
-		include: {
-			finishedList: true,
-			readingList: true
-		}
-	});
+	if (user && book) {
+		const userLists = await prisma.user.findUnique({
+			where: {
+				id: user.userId
+			},
+			include: {
+				finishedList: true,
+				readingList: true
+			}
+		});
+		return {
+			book,
+			userLists
+		};
+	}
 
 	if (book) {
 		return {
-            book,
-            userLists
-        };
+			book
+		};
 	}
 
 	throw error(404, 'Not found');

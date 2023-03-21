@@ -36,15 +36,6 @@
 		width: 100%;
 	}
 
-	h2 {
-		font-size: 28px;
-	}
-
-	.book-form {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
 
 	.books {
 		display: flex;
@@ -52,17 +43,5 @@
 		gap: 20px;
 	}
 
-	.book-card {
-		background-color: aquamarine;
-		padding: 40px;
-		border-radius: 20px;
-		width: 200px;
-		min-height: 150px;
-	}
-
-	textarea {
-		min-height: 200px;
-		min-width: 350px;
-	}
 
 </style>

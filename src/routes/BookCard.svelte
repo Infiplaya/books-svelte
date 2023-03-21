@@ -59,11 +59,7 @@ export let userLists: PageData['userLists'];
 	.book-img {
 		align-self: center;
 	}
-
-    h1 {
-		width: 100%;
-	}
-
+	
 	h2 {
 		font-size: 28px;
 	}

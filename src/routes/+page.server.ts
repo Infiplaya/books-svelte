@@ -3,18 +3,22 @@ import { prisma } from '../lib/server/prisma';
 
 export const load: ServerLoad = async ({ locals }) => {
 	const { user } = await locals.validateUser();
-	return {
-		books: await prisma.book.findMany(),
-		userLists: await prisma.user.findUnique({
+	if (user) {
+		const userLists = await prisma.user.findUnique({
 			where: {
-				id: user!.userId
+				id: user.userId
 			},
 			include: {
 				finishedList: true,
 				readingList: true
 			}
-		})
-	};
+		});
+		return {
+			books: await prisma.book.findMany(),
+			userLists
+		};
+	}
+	return { books: await prisma.book.findMany() };
 };
 
 export const actions: Actions = {

@@ -16,16 +16,17 @@
 			<li aria-current={$page.url.pathname === '/finished-list' ? 'page' : undefined}>
 				<a href="/finished-list">Finished list</a>
 			</li>
-			<form method="POST" class="auth">
+			
 				{#if !data.user}
 					<li aria-current={$page.url.pathname === '/register' ? 'page' : undefined}><a href="/register">Register</a></li>
 					<li aria-current={$page.url.pathname === '/login' ? 'page' : undefined}> <a href="/login" role="button">Login</a></li>
 				{:else}
+				<form method="POST" class="auth">
 					<li>
 						<button formaction="/logout" type="submit">Logout</button>
 					</li>
+				</form>
 				{/if}
-			</form>
 		</ul>
 			
 	</nav>
@@ -56,6 +57,8 @@
 		list-style: none;
 		background: var(--background);
 		background-size: contain;
+		padding-inline: 20px;
+		gap: 20px;
 	}
 
 	li {

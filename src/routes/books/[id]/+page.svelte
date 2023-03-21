@@ -12,7 +12,7 @@
 </svelte:head>
 
 <section class="books">
-	<BookCard book={book} userLists={userLists}/>
+	<BookCard book={book} userLists={userLists} isDetailPage={true}/>
  </section>
 
 

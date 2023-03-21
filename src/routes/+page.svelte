@@ -14,7 +14,7 @@
 
  <section class="books">
 	{#each books as book}
-	<BookCard book={book} userLists={userLists}/>
+	<BookCard book={book} userLists={userLists} isDetailPage={false}/>
 	{/each}
  </section>
 </section>

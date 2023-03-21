@@ -17,7 +17,7 @@
 	<h1>Finished list</h1>
  <section class="books">
 	{#each finishedList as book}
-	<BookCard book={book} userLists={userLists}/>
+	<BookCard book={book} userLists={userLists} isDetailPage={false}/>
 	{/each}
  </section>
 </section>

@@ -41,7 +41,8 @@
 		"@prisma/client": "^4.11.0",
 		"cross-fetch": "^3.1.5",
 		"lucia-auth": "^0.9.1",
-		"prisma": "^4.11.0"
+		"prisma": "^4.11.0",
+		"svelte-icons": "^2.1.0"
 	},
 	"prisma": {
 		"seed": "tsx prisma/seed.ts"

@@ -22,6 +22,7 @@ specifiers:
   prisma: ^4.11.0
   svelte: ^3.54.0
   svelte-check: ^3.0.1
+  svelte-icons: ^2.1.0
   tslib: ^2.4.1
   typescript: ^4.9.3
   vite: ^4.0.0
@@ -34,6 +35,7 @@ dependencies:
   cross-fetch: 3.1.5
   lucia-auth: 0.9.1
   prisma: 4.11.0
+  svelte-icons: 2.1.0
 
 devDependencies:
   '@fontsource/fira-mono': 4.5.10
@@ -1776,6 +1778,10 @@ packages:
     dependencies:
       svelte: 3.57.0
     dev: true
+
+  /svelte-icons/2.1.0:
+    resolution: {integrity: sha512-rHPQjweEc9fGSnvM0/4gA3pDHwyZyYsC5KhttCZRhSMJfLttJST5Uq0B16Czhw+HQ+HbSOk8kLigMlPs7gZtfg==}
+    dev: false
 
   /svelte-preprocess/5.0.3_wkdgp32a7s6524odeddpfzb52q:
     resolution: {integrity: sha512-GrHF1rusdJVbOZOwgPWtpqmaexkydznKzy5qIC2FabgpFyKN57bjMUUUqPRfbBXK5igiEWn1uO/DXsa2vJ5VHA==}

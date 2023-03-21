@@ -20,26 +20,36 @@
 		<h2>{book.title}</h2>
 		<div>{book.author}</div>
 		<div>{book.description}</div>
-		<form action="?/addToFinished" method="POST" use:enhance>
+		{#if userLists?.finishedList.map((item) => item.id).includes(book.id)}
+		<form action="?/removeFromFinishedList" method="POST" use:enhance>
 			<input type="hidden" value={book.id} id="id" name="id" />
-			<button type="submit" class:finished={userLists?.finishedList.map((item) => item.id)?.includes(book.id)} class:not-finished={!userLists?.finishedList.map((item) => item.id).includes(book.id)}>
-				{#if userLists?.finishedList.map((item) => item.id).includes(book.id)}
-					Finished
-				{:else}
-					Mark as Finished
-				{/if}
+			<button type="submit">
+				Finished
 			</button>
 		</form>
-		<form action="?/addToReadlist" method="POST" use:enhance>
+		{:else}
+		<form action="?/addToFinishedList" method="POST" use:enhance>
 			<input type="hidden" value={book.id} id="id" name="id" />
-			<button type="submit" class:want-read={userLists?.readingList.map((item) => item.id)?.includes(book.id)} class:not-interested={!userLists?.readingList.map((item) => item.id).includes(book.id)}>
-				{#if userLists?.readingList.map((item) => item.id).includes(book.id)}
-					Want to read!
-				{:else}
-					Not interested
-				{/if}
+			<button type="submit">
+				Mark as finished
 			</button>
 		</form>
+		{/if}
+		{#if userLists?.readingList.map((item) => item.id).includes(book.id)}
+		<form action="?/removeFromReadingList" method="POST" use:enhance>
+			<input type="hidden" value={book.id} id="id" name="id" />
+			<button type="submit">
+				in readlist
+			</button>
+		</form>
+		{:else}
+		<form action="?/addToReadingList" method="POST" use:enhance>
+			<input type="hidden" value={book.id} id="id" name="id" />
+			<button type="submit">
+				Add to reading list
+			</button>
+		</form>
+		{/if}
 	</div>
 	{/each}
  </section>

@@ -41,7 +41,9 @@ export const actions: Actions = {
 			status: 301
 		};
 	},
-	addToFinished: async ({ request, locals }) => {
+
+	/* Finished books list */
+	addToFinishedList: async ({ request, locals }) => {
 		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
@@ -72,7 +74,41 @@ export const actions: Actions = {
 			status: 201
 		};
 	},
-	addToReadlist: async ({ request, locals }) => {
+
+	removeFromFinishedList: async ({ request, locals }) => {
+		// Get the current user
+		const { user, session } = await locals.validateUser();
+		if (!(user && session)) {
+			return fail(500, { message: 'Only logged in users can remove books' });
+		}
+
+		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
+
+		try {
+			await prisma.user.update({
+				where: {
+					id: user.userId
+				},
+				data: {
+					finishedList: {
+						disconnect: {
+							id: parseInt(bookId)
+						}
+					}
+				}
+			});
+		} catch (err) {
+			console.error(err);
+			return fail(500, { message: 'Could not remove this book' });
+		}
+
+		return {
+			status: 201
+		};
+	},
+
+	/* Books read list */
+	addToReadingList: async ({ request, locals }) => {
 		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
@@ -89,6 +125,38 @@ export const actions: Actions = {
 				data: {
 					readingList: {
 						connect: {
+							id: parseInt(bookId)
+						}
+					}
+				}
+			});
+		} catch (err) {
+			console.error(err);
+			return fail(500, { message: 'Could not remove this book' });
+		}
+
+		return {
+			status: 201
+		};
+	},
+
+	removeFromReadingList: async ({ request, locals }) => {
+		// Get the current user
+		const { user, session } = await locals.validateUser();
+		if (!(user && session)) {
+			return fail(500, { message: 'Only logged in users can add books' });
+		}
+
+		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
+
+		try {
+			await prisma.user.update({
+				where: {
+					id: user.userId
+				},
+				data: {
+					readingList: {
+						disconnect: {
 							id: parseInt(bookId)
 						}
 					}

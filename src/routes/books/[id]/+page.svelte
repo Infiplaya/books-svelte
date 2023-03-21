@@ -2,7 +2,7 @@
 	import type { PageData } from "./$types";
 	export let data: PageData;
 	import { enhance } from '$app/forms';
-	$: ({books, userLists} = data)
+	$: ({book, userLists} = data)
 
 </script>
 
@@ -11,12 +11,7 @@
 	<meta name="description" content="Books app" />
 </svelte:head>
 
-<section>
- <h1>Hello, world</h1>
-
- <section class="books">
-	{#each books as book}
-	<a href="/books/{book.id}">
+<section class="books">
 	<div class="book-card">
 		<h2>{book.title}</h2>
 		<div>{book.author}</div>
@@ -52,24 +47,10 @@
 		</form>
 		{/if}
 	</div>
-	</a>
-	{/each}
  </section>
 
- <form action="?/createBook" method="POST" class="book-form">
-	<h3>New book</h3>
-	<label for="title">Title</label>
-	<input type="text" id="title" name="title" />
-	<label for="author">Author</label>
-	<input type="text" id="author" name="author" />
 
-	<label for="description">Description</label>
-	<textarea id="description" name="description"></textarea>
-	<button type="submit">Add book</button>
-</form>
-</section>
-
-<style>
+ <style>
 	section {
 		display: flex;
 		flex-direction: column;

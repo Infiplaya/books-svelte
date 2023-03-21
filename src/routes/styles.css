@@ -41,13 +41,10 @@ p {
 }
 
 a {
-	color: var(--color-theme-1);
+	color: inherit;
 	text-decoration: none;
 }
 
-a:hover {
-	text-decoration: underline;
-}
 
 h1 {
 	font-size: 2rem;

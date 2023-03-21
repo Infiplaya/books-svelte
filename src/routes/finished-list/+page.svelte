@@ -14,8 +14,7 @@
 </svelte:head>
 
 <section>
- <h1>Hello, world</h1>
-
+	<h1>Finished list</h1>
  <section class="books">
 	{#each finishedList as book}
 	<BookCard book={book} userLists={userLists}/>

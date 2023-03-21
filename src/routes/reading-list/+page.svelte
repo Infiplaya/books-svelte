@@ -14,7 +14,7 @@
 </svelte:head>
 
 <section>
- <h1>Hello, world</h1>
+ <h1>Reading list</h1>
 
  <section class="books">
 	{#each readingList as book}

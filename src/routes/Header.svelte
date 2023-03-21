@@ -6,7 +6,7 @@
 
 <header>
 	<nav>
-		<ul>
+		<ul class="u">
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
@@ -16,10 +16,10 @@
 			<li aria-current={$page.url.pathname === '/finished-list' ? 'page' : undefined}>
 				<a href="/finished-list">Finished list</a>
 			</li>
-			<form method="POST">
+			<form method="POST" class="auth">
 				{#if !data.user}
-					<li><a href="/register">Register</a></li>
-					<li><a href="/login" role="button">Login</a></li>
+					<li aria-current={$page.url.pathname === '/register' ? 'page' : undefined}><a href="/register">Register</a></li>
+					<li aria-current={$page.url.pathname === '/login' ? 'page' : undefined}> <a href="/login" role="button">Login</a></li>
 				{:else}
 					<li>
 						<button formaction="/logout" type="submit">Logout</button>
@@ -35,10 +35,9 @@
 <style>
 	header {
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
+		padding: 20px;
 	}
-
-
 
 	nav {
 		display: flex;

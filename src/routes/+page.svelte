@@ -3,8 +3,6 @@
 	import BookCard from "./BookCard.svelte";
 	export let data: PageData;
 	$: ({books, userLists} = data)
-	$: console.log(userLists)
-
 </script>
 
 <svelte:head>

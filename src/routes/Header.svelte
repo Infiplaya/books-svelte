@@ -1,5 +1,7 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
+	import type { PageData } from './$types'
+	export let data: PageData;
 </script>
 
 <header>
@@ -8,6 +10,22 @@
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
+			<li aria-current={$page.url.pathname === '/reading-list' ? 'page' : undefined}>
+				<a href="/reading-list">Reading list</a>
+			</li>
+			<li aria-current={$page.url.pathname === '/finished-list' ? 'page' : undefined}>
+				<a href="/finished-list">Finished list</a>
+			</li>
+			<form method="POST">
+				{#if !data.user}
+					<li><a href="/register">Register</a></li>
+					<li><a href="/login" role="button">Login</a></li>
+				{:else}
+					<li>
+						<button formaction="/logout" type="submit">Logout</button>
+					</li>
+				{/if}
+			</form>
 		</ul>
 			
 	</nav>

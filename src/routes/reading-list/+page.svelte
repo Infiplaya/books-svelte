@@ -5,11 +5,12 @@
 	import BookCard from "../BookCard.svelte";
 	$: ({userLists} = data)
     $: readingList = userLists!.readingList
+	$: console.log(readingList)
 
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Reading list</title>
 	<meta name="description" content="Books app" />
 </svelte:head>
 

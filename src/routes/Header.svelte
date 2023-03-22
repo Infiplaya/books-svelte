@@ -23,7 +23,7 @@
 				{:else}
 				<form method="POST" class="auth">
 					<li>
-						<button formaction="/logout" type="submit">Logout</button>
+						<button formaction="/logout" type="submit" class="primary-button text-sm">Logout</button>
 					</li>
 				</form>
 				{/if}
@@ -92,7 +92,16 @@
 		transition: color 0.2s linear;
 	}
 
+	.primary-button {
+		border: none;
+		padding: 6px 12px;
+		border-radius: 5px;
+		background-color: var(--color-theme-1);
+		cursor: pointer;
+	}
+
+
 	a:hover {
-		color: var(--color-theme-1);
+		color: var(--color-theme-2);
 	}
 </style>

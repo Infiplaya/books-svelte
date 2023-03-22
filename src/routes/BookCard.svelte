@@ -28,9 +28,9 @@
 				</div>
 			</div>
 			{#if isDetailPage}
-			<p class="description">{book.description}</p>
+			<p class="text-sm">{book.description}</p>
 			{:else}
-			<p class="description">{truncateString(book.description)}</p>
+			<p class="text-sm">{truncateString(book.description)}</p>
 			{/if}
 			</a>
 	
@@ -38,14 +38,14 @@
 			{#if userLists?.readingList.map((item) => item.id).includes(book.id)}
 				<form action="?/removeFromReadingList" method="POST" use:enhance>
 					<input type="hidden" value={book.id} id="id" name="id" />
-					<button class="icon" type="submit">
+					<button class="icon" aria-current="true" type="submit" title="Remove from reading list">
 						<FaBookmark/>
 					</button>
 				</form>
 			{:else}
 				<form action="?/addToReadingList" method="POST" use:enhance>
 					<input type="hidden" value={book.id} id="id" name="id" />
-						<button class="icon" type="submit">
+						<button class="icon" type="submit" title="Add to reading list">
 							<FaRegBookmark />
 						</button>
 				</form>
@@ -53,14 +53,14 @@
 			{#if userLists?.finishedList.map((item) => item.id).includes(book.id)}
 				<form action="?/removeFromFinishedList" method="POST" use:enhance>
 					<input type="hidden" value={book.id} id="id" name="id" />
-					<button class="icon" type="submit">
+					<button class="icon" type="submit" aria-current="true" title="Mark as unfinished">
 						<FaCheckCircle />
 					</button>
 				</form>
 			{:else}
 				<form action="?/addToFinishedList" method="POST" use:enhance>
 					<input type="hidden" value={book.id} id="id" name="id" />
-					<button class="icon" type="submit">
+					<button class="icon" type="submit" title="Add to finished">
 						<FaPlusCircle />
 					</button>
 				</form>
@@ -76,24 +76,26 @@
 		width: 36px;
 		height: 36px;
 		cursor: pointer;
+		color: var(--color-theme-1);
 		-webkit-font-smoothing: antialiased;
-		  -moz-osx-font-smoothing: grayscale;
+		-moz-osx-font-smoothing: grayscale;
 	  }
 	  .icon:hover {
 		transform: scale(1.2);
 	  }
+
+	  .icon[aria-current="true"]{
+		color: var(--color-theme-3);
+	  }
 		.book-card {
-			box-shadow: 0px 0px 10px rgb(119, 119, 119);
+			box-shadow: 0px 0px 5px rgb(119, 119, 119);
+			background-color: rgb(248, 246, 245);
 			padding: 40px;
 			border-radius: 20px;
 			width: 400px;
 			min-height: 150px;
 			display: flex;
 			flex-direction: column;
-		}
-		.description {
-			font-size: 0.875rem; 
-			line-height: 1.25rem; 
 		}
 		.card-grid {
 			display: grid;

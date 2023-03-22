@@ -13,7 +13,7 @@
 	</main>
 
 	<footer>
-		<p>Hi</p>
+		<p>Made by me</p>
 	</footer>
 </div>
 

@@ -4,11 +4,12 @@
 	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
 		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	--font-mono: 'Fira Mono', monospace;
-	--color-bg-0: rgb(202, 216, 228);
-	--color-bg-1: hsl(209, 36%, 86%);
-	--color-bg-2: hsl(224, 44%, 95%);
-	--color-theme-1: #ff3e00;
-	--color-theme-2: #4075a6;
+	--color-bg-0: #fad9ab;
+	--color-bg-1: #f7e9d5;
+	--color-bg-2: #faf3e9;
+	--color-theme-1: #E9A178;
+	--color-theme-2: #A84448;
+	--color-theme-3: #7A3E65;
 	--color-text: rgba(0, 0, 0, 0.7);
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
@@ -22,12 +23,6 @@ body {
 	background-attachment: fixed;
 	background-color: var(--color-bg-1);
 	background-size: 100vw 100vh;
-	background-image: radial-gradient(
-			50% 50% at 50% 50%,
-			rgba(255, 255, 255, 0.75) 0%,
-			rgba(255, 255, 255, 0) 100%
-		),
-		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
 }
 
 h1,
@@ -78,10 +73,16 @@ input,
 button {
 	font-size: inherit;
 	font-family: inherit;
+	border: none;
 }
 
 button:focus:not(:focus-visible) {
 	outline: none;
+}
+
+.text-sm {
+	font-size: 0.875rem; 
+	line-height: 1.25rem; 
 }
 
 @media (min-width: 720px) {

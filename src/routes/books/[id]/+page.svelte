@@ -1,7 +1,12 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
 	import type { PageData } from "./$types";
+	import FaRegBookmark from 'svelte-icons/fa/FaRegBookmark.svelte'
+	import FaBookmark from 'svelte-icons/fa/FaBookmark.svelte'
+	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte'
+	import FaCheckCircle from 'svelte-icons/fa/FaCheckCircle.svelte'
+	
 	export let data: PageData;
-	import BookCard from "../../BookCard.svelte";
 	$: ({book, userLists} = data)
 
 </script>
@@ -11,25 +16,106 @@
 	<meta name="description" content="Books app" />
 </svelte:head>
 
-<section class="books">
-	<BookCard book={book} userLists={userLists} isDetailPage={true}/>
+<section class="book">
+		<div class="card-grid">
+			<img src="{book.image}" alt="{book.title}" width="200" class="book-img">
+			<div class="info">
+				<h1>{book.title}</h1>
+				<h2>{book.author}</h2>
+				<p class="description">{book.description}</p>
+			</div>
+		</div>
+		<div class="action-buttons">
+		{#if userLists?.readingList.map((item) => item.id).includes(book.id)}
+			<form action="?/removeFromReadingList" method="POST" use:enhance>
+				<input type="hidden" value={book.id} id="id" name="id" />
+				<button class="icon" aria-current="true" type="submit" title="Remove from reading list">
+					<FaBookmark/>
+				</button>
+			</form>
+		{:else}
+			<form action="?/addToReadingList" method="POST" use:enhance>
+				<input type="hidden" value={book.id} id="id" name="id" />
+					<button class="icon" type="submit" title="Add to reading list">
+						<FaRegBookmark />
+					</button>
+			</form>
+		{/if}
+		{#if userLists?.finishedList.map((item) => item.id).includes(book.id)}
+			<form action="?/removeFromFinishedList" method="POST" use:enhance>
+				<input type="hidden" value={book.id} id="id" name="id" />
+				<button class="icon" type="submit" aria-current="true" title="Mark as unfinished">
+					<FaCheckCircle />
+				</button>
+			</form>
+		{:else}
+			<form action="?/addToFinishedList" method="POST" use:enhance>
+				<input type="hidden" value={book.id} id="id" name="id" />
+				<button class="icon" type="submit" title="Add to finished">
+					<FaPlusCircle />
+				</button>
+			</form>
+		{/if}
+		</div>
+
  </section>
 
 
  <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
+
+	.book {
+		margin-top: 20px;
 	}
+	.icon {
+		background-color: transparent;
+		border: none;
+		width: 36px;
+		height: 36px;
+		cursor: pointer;
+		color: var(--color-theme-1);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	  }
+	  .icon:hover {
+		transform: scale(1.2);
+	  }
 
-	.books {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-	}
+	  .icon[aria-current="true"]{
+		color: var(--color-theme-3);
+	  }
+		.card-grid {
+			display: grid;
+			grid-template-columns: repeat(12, minmax(0, 1fr));
+		}
+		.book-img {
+			box-shadow: 1px 1px 10px;
+			grid-column: span 3 / span 3;
+		}
+		
+		h1 {
+			font-size: 36px;
+			text-align: left;
+			margin: 0;
+		}
+		
+		.description {
+			margin-top: 24px;
+		}
 
+		h2 {
+			font-size: 24px;
+			margin: 0;
+			margin-top: 16px;
+		}
 
-</style>
+		.info {
+			display: flex;
+			flex-direction: column;
+			grid-column: span 7 / span 7;
+		}
+		.action-buttons {
+			align-self: flex-end;
+			display: flex;
+			gap: 10px;
+		}
+	</style>

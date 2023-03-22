@@ -6,9 +6,11 @@
 	import FaBookmark from 'svelte-icons/fa/FaBookmark.svelte'
 	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte'
 	import FaCheckCircle from 'svelte-icons/fa/FaCheckCircle.svelte'
+	
 	export let book: Book;
 	export let userLists: PageData['userLists'];
 	export let isDetailPage: boolean;
+	
 	function truncateString(str: string, maxLength: number = 250) {
 	  if (str.length > maxLength) {
 		return str.slice(0, maxLength - 3) + '...';
@@ -79,6 +81,8 @@
 		color: var(--color-theme-1);
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
+		transition: all;
+		transition-duration: 200ms;
 	  }
 	  .icon:hover {
 		transform: scale(1.2);

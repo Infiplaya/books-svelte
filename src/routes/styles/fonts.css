@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Handlee';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/Handlee-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    font-style: normal;
+    src: url('/fonts/Alegreya-VariableFont_wght.ttf');
+}
+
+

@@ -66,16 +66,12 @@
 		height: 100%;
 	}
 
-	li[aria-current='page']::before {
-		--size: 6px;
-		content: '';
-		width: 0;
-		height: 0;
-		position: absolute;
-		top: 0;
-		left: calc(50% - var(--size));
-		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--color-theme-1);
+	li[aria-current='page'] {
+		text-decoration: wavy;
+		text-decoration-line: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 4px;
+		color: var(--color-theme-1);
 	}
 
 	nav a {
@@ -100,8 +96,12 @@
 		cursor: pointer;
 	}
 
+	.primary-button:hover {
+		background-color: var(--color-1-lighter);
+	}
+
 
 	a:hover {
-		color: var(--color-theme-2);
+		color: var(--color-theme-1);
 	}
 </style>

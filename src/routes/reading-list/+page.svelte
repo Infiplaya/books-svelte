@@ -35,6 +35,7 @@
 
 	h1 {
 		width: 100%;
+		font-family: 'Handlee';
 	}
 
 	.books {

@@ -8,9 +8,10 @@
 	--color-bg-1: #f7e9d5;
 	--color-bg-2: #faf3e9;
 	--color-theme-1: #E9A178;
+	--color-1-lighter: #f5b591;
 	--color-theme-2: #A84448;
 	--color-theme-3: #7A3E65;
-	--color-text: rgba(0, 0, 0, 0.7);
+	--color-text: rgba(0, 0, 0, 0.9);
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
 	font-family: var(--font-body);
@@ -27,6 +28,7 @@ body {
 
 h1,
 h2,
+h3,
 p {
 	font-weight: 400;
 }

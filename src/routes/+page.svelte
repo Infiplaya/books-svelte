@@ -9,7 +9,7 @@
 	<title>Home</title>
 	<meta name="description" content="Books app" />
 </svelte:head>
-
+<h1>Books</h1>
  <section class="books">
 	{#each books as book}
 	<BookCard book={book} userLists={userLists} isDetailPage={false}/>
@@ -24,5 +24,9 @@
 		flex-direction: column;
 		gap: 40px;
 	}
+
+	 h1 {
+		font-family: 'Handlee';
+	 }
 
 </style>

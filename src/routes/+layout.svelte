@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Header from './Header.svelte';
-	import './styles.css';
+	import './styles/styles.css';
+	import './styles/fonts.css'
 	import type { PageData } from './$types'
 	export let data: PageData
 </script>
@@ -33,6 +34,8 @@
 		max-width: 64rem;
 		margin: 0 auto;
 		box-sizing: border-box;
+		font-family: 'Alegreya';
+		font-weight: 500;
 	}
 
 	footer {

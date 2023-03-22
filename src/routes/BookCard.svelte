@@ -23,19 +23,18 @@
 		<div class="book-card">
 			<a href="/books/{book.id}">
 			<div class="card-grid">
-				<img src="{book.image}" alt="{book.title}" width="200" class="book-img">
-				<div class="title">
+				<img src="{book.image}" alt="{book.title}" class="book-img" width="150">
+				<div class="info">
 					<h2>{book.title}</h2>
-					<p>{book.author}</p>
+					<h3>{book.author}</h3>
+					{#if isDetailPage}
+					<p>{book.description}</p>
+					{:else}
+					<p>{truncateString(book.description)}</p>
+					{/if}
 				</div>
 			</div>
-			{#if isDetailPage}
-			<p class="text-sm">{book.description}</p>
-			{:else}
-			<p class="text-sm">{truncateString(book.description)}</p>
-			{/if}
 			</a>
-	
 			<div class="action-buttons">
 			{#if userLists?.readingList.map((item) => item.id).includes(book.id)}
 				<form action="?/removeFromReadingList" method="POST" use:enhance>
@@ -92,19 +91,16 @@
 		color: var(--color-theme-3);
 	  }
 		.book-card {
-			box-shadow: 0px 0px 5px rgb(119, 119, 119);
+			box-shadow: 0px 0px 2px rgb(145, 129, 129);
 			background-color: rgb(248, 246, 245);
-			padding: 40px;
-			border-radius: 20px;
+			padding: 30px;
 			width: 400px;
-			min-height: 150px;
 			display: flex;
 			flex-direction: column;
 		}
 		.card-grid {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
-			gap: 40px;
 		}
 		.book-img {
 			align-self: center;
@@ -112,8 +108,16 @@
 		
 		h2 {
 			font-size: 28px;
+			margin: 0;
 		}
-		.title {
+
+		h3 {
+			font-size: 20px;
+			margin: 0;
+			margin-top: 10px;
+		}
+
+		.info {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;

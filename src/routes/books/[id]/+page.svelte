@@ -93,13 +93,14 @@
 		}
 		
 		h1 {
-			font-size: 36px;
 			text-align: left;
 			margin: 0;
+			font-family: 'Handlee';
 		}
 		
 		.description {
 			margin-top: 24px;
+			font-size: 18px;
 		}
 
 		h2 {

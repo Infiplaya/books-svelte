@@ -26,7 +26,7 @@
 	}
 
 	 h1 {
-		font-family: 'Handlee';
+		margin: 20px 0px;
 	 }
 
 </style>

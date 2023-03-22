@@ -63,6 +63,9 @@
 
  <style>
 
+	h1 {
+		text-align: left;
+	}
 	.book {
 		margin-top: 20px;
 	}
@@ -92,22 +95,12 @@
 			grid-column: span 3 / span 3;
 		}
 		
-		h1 {
-			text-align: left;
-			margin: 0;
-			font-family: 'Handlee';
-		}
 		
 		.description {
 			margin-top: 24px;
 			font-size: 18px;
 		}
 
-		h2 {
-			font-size: 24px;
-			margin: 0;
-			margin-top: 16px;
-		}
 
 		.info {
 			display: flex;

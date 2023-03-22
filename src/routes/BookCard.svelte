@@ -91,7 +91,7 @@
 		color: var(--color-theme-3);
 	  }
 		.book-card {
-			box-shadow: 0px 0px 2px rgb(145, 129, 129);
+			box-shadow: 0px 0px 4px rgb(190, 172, 172);
 			background-color: rgb(248, 246, 245);
 			padding: 30px;
 			width: 400px;
@@ -106,16 +106,6 @@
 			align-self: center;
 		}
 		
-		h2 {
-			font-size: 28px;
-			margin: 0;
-		}
-
-		h3 {
-			font-size: 20px;
-			margin: 0;
-			margin-top: 10px;
-		}
 
 		.info {
 			display: flex;

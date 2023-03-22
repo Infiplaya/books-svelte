@@ -33,11 +33,6 @@
 		flex: 0.6;
 	}
 
-	h1 {
-		width: 100%;
-		font-family: 'Handlee';
-	}
-
 	.books {
 		display: flex;
 		flex-direction: column;

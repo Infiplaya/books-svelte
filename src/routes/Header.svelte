@@ -88,18 +88,6 @@
 		transition: color 0.2s linear;
 	}
 
-	.primary-button {
-		border: none;
-		padding: 6px 12px;
-		border-radius: 5px;
-		background-color: var(--color-theme-1);
-		cursor: pointer;
-	}
-
-	.primary-button:hover {
-		background-color: var(--color-1-lighter);
-	}
-
 
 	a:hover {
 		color: var(--color-theme-1);

@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	default: async ({ request }) => {
-		const { name, username, password } = Object.fromEntries(
+		const { username, password } = Object.fromEntries(
 			await request.formData(),
 		) as Record<string, string>
 
@@ -24,7 +24,6 @@ export const actions: Actions = {
 					password,
 				},
 				attributes: {
-					name,
 					username,
 				},
 			})

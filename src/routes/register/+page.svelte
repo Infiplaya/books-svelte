@@ -1,3 +1,8 @@
+<svelte:head>
+	<title>Register</title>
+	<meta name="description" content="Books app" />
+</svelte:head>
+
 <section class="register">
 	<form method="POST">
 		<hgroup>

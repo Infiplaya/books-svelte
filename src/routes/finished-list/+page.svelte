@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Finished list</title>
 	<meta name="description" content="Books app" />
 </svelte:head>
 

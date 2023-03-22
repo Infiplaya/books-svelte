@@ -23,7 +23,9 @@
 		align-items: center;
 		flex-direction: column;
 		gap: 40px;
+		width: 100%;
 	}
+
 
 	 h1 {
 		margin: 20px 0px;

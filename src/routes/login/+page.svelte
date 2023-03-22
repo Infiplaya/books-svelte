@@ -1,4 +1,9 @@
 
+<svelte:head>
+	<title>Login</title>
+	<meta name="description" content="Books app" />
+</svelte:head>
+
 <section class="login">
 	<form method="POST">
 		<hgroup>

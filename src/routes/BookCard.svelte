@@ -90,21 +90,27 @@
 	  .icon[aria-current="true"]{
 		color: var(--color-theme-3);
 	  }
+
+
 		.book-card {
 			box-shadow: 0px 0px 4px rgb(190, 172, 172);
 			background-color: rgb(248, 246, 245);
 			padding: 30px;
-			width: 400px;
+			max-width: 400px;
 			display: flex;
 			flex-direction: column;
 		}
-		.card-grid {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-		}
+		
 		.book-img {
 			align-self: center;
 		}
+
+		.card-grid {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+
 		
 
 		.info {
@@ -117,5 +123,13 @@
 			margin-top: 10px;
 			display: flex;
 			gap: 10px;
+		}
+
+
+		@media (min-width: 640px) {
+			.card-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
 		}
 	</style>

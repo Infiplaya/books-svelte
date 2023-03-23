@@ -1,54 +1,87 @@
 <script lang="ts">
+	type User = {
+		userId: string;
+		username: string;
+	} | null;
+
 	import { enhance } from '$app/forms';
 	import type { Book } from '@prisma/client';
-	import type { PageData } from "./$types";
-	import FaRegBookmark from 'svelte-icons/fa/FaRegBookmark.svelte'
-	import FaBookmark from 'svelte-icons/fa/FaBookmark.svelte'
-	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte'
-	import FaCheckCircle from 'svelte-icons/fa/FaCheckCircle.svelte'
-	
+	import type { PageData } from './$types';
+	import FaRegBookmark from 'svelte-icons/fa/FaRegBookmark.svelte';
+	import FaBookmark from 'svelte-icons/fa/FaBookmark.svelte';
+	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte';
+	import FaCheckCircle from 'svelte-icons/fa/FaCheckCircle.svelte';
+
 	export let book: Book;
 	export let userLists: PageData['userLists'];
 	export let isDetailPage: boolean;
-	
+	export let user: User;
+
 	function truncateString(str: string, maxLength: number = 250) {
-	  if (str.length > maxLength) {
-		return str.slice(0, maxLength - 3) + '...';
-	  } else {
-		return str;
-	  }
+		if (str.length > maxLength) {
+			return str.slice(0, maxLength - 3) + '...';
+		} else {
+			return str;
+		}
 	}
-	</script>
-	
-		<div class="book-card">
-			<a href="/books/{book.id}">
-			<div class="card-grid">
-				<img src="{book.image}" alt="{book.title}" class="book-img" width="150">
-				<div class="info">
-					<h2>{book.title}</h2>
-					<h3>{book.author}</h3>
-					{#if isDetailPage}
+
+	let readingError: string;
+
+	function handleReadingError() {
+		finishedError = '';
+		if (!user) {
+			readingError = 'Only logged in users can add books to reading list';
+		}
+		return;
+	}
+
+	let finishedError: string;
+
+	function handleFinishedError() {
+		readingError = '';
+		if (!user) {
+			finishedError = 'Only logged in users can mark books as finished';
+		}
+		return;
+	}
+</script>
+
+<div class="book-card">
+	<a href="/books/{book.id}">
+		<div class="card-grid">
+			<img src={book.image} alt={book.title} class="book-img" width="150" />
+			<div class="info">
+				<h2>{book.title}</h2>
+				<h3>{book.author}</h3>
+				{#if isDetailPage}
 					<p>{book.description}</p>
-					{:else}
+				{:else}
 					<p>{truncateString(book.description)}</p>
-					{/if}
-				</div>
+				{/if}
 			</div>
-			</a>
-			<div class="action-buttons">
+		</div>
+	</a>
+	<div class="flex">
+		<div class="action-buttons">
 			{#if userLists?.readingList.map((item) => item.id).includes(book.id)}
 				<form action="?/removeFromReadingList" method="POST" use:enhance>
 					<input type="hidden" value={book.id} id="id" name="id" />
+
 					<button class="icon" aria-current="true" type="submit" title="Remove from reading list">
-						<FaBookmark/>
+						<FaBookmark />
 					</button>
 				</form>
 			{:else}
 				<form action="?/addToReadingList" method="POST" use:enhance>
 					<input type="hidden" value={book.id} id="id" name="id" />
-						<button class="icon" type="submit" title="Add to reading list">
-							<FaRegBookmark />
-						</button>
+					<button
+						class="icon"
+						type="submit"
+						title="Add to reading list"
+						on:click={handleReadingError}
+					>
+						<FaRegBookmark />
+					</button>
 				</form>
 			{/if}
 			{#if userLists?.finishedList.map((item) => item.id).includes(book.id)}
@@ -61,16 +94,27 @@
 			{:else}
 				<form action="?/addToFinishedList" method="POST" use:enhance>
 					<input type="hidden" value={book.id} id="id" name="id" />
-					<button class="icon" type="submit" title="Add to finished">
+					<button class="icon" type="submit" title="Add to finished" on:click={handleFinishedError}>
 						<FaPlusCircle />
 					</button>
 				</form>
 			{/if}
-			</div>
-			
 		</div>
-	
-	<style>
+		{#if readingError}
+			<p class="error">{readingError}</p>
+		{/if}
+		{#if finishedError}
+			<p class="error">{finishedError}</p>
+		{/if}
+	</div>
+</div>
+
+<style>
+
+	.error {
+		color: var(--color-theme-2);
+		margin-top: 5px;
+	}
 	.icon {
 		background-color: transparent;
 		border: none;
@@ -82,53 +126,55 @@
 		-moz-osx-font-smoothing: grayscale;
 		transition: all;
 		transition-duration: 200ms;
-	  }
-	  .icon:hover {
+	}
+	.icon:hover {
 		transform: scale(1.2);
-	  }
+	}
 
-	  .icon[aria-current="true"]{
+	.icon[aria-current='true'] {
 		color: var(--color-theme-3);
-	  }
+	}
 
+	.book-card {
+		box-shadow: 0px 0px 4px rgb(190, 172, 172);
+		background-color: rgb(248, 246, 245);
+		padding: 30px;
+		max-width: 400px;
+		display: flex;
+		flex-direction: column;
+	}
 
-		.book-card {
-			box-shadow: 0px 0px 4px rgb(190, 172, 172);
-			background-color: rgb(248, 246, 245);
-			padding: 30px;
-			max-width: 400px;
-			display: flex;
-			flex-direction: column;
-		}
-		
-		.book-img {
-			align-self: center;
-		}
+	.book-img {
+		align-self: center;
+	}
 
+	.flex {
+		display: flex;
+		flex-direction: row-reverse;
+	}
+
+	.card-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.info {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	.action-buttons {
+		align-self: flex-end;
+		margin-top: 10px;
+		display: flex;
+		gap: 10px;
+	}
+
+	@media (min-width: 640px) {
 		.card-grid {
-			display: flex;
-			flex-direction: column;
-			gap: 16px;
-		}
-
-	
-		.info {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-		}
-		.action-buttons {
-			align-self: flex-end;
-			margin-top: 10px;
-			display: flex;
-			gap: 10px;
-		}
-
-
-		@media (min-width: 640px) {
-			.card-grid {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
 		}
-		}
-	</style>
+	}
+</style>

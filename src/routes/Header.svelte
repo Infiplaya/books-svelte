@@ -8,9 +8,9 @@
 	let onClick = (): void => {
 		open = !open;
 		if (open) {
-			document.body.style.overflowY = "hidden"
+			document.body.style.overflowY = 'hidden';
 		} else {
-			document.body.style.overflowY = "visible"
+			document.body.style.overflowY = 'visible';
 		}
 	};
 
@@ -34,7 +34,12 @@
 				<a href="/login" role="button" on:click={hideNav}>Login</a>
 			{:else}
 				<form method="POST" class="auth">
-					<button formaction="/logout" type="submit" class="primary-button text-sm" on:click={hideNav}>Logout</button>
+					<button
+						formaction="/logout"
+						type="submit"
+						class="primary-button text-sm"
+						on:click={hideNav}>Logout</button
+					>
 				</form>
 			{/if}
 		</nav>
@@ -152,7 +157,6 @@
 	a:hover {
 		color: var(--color-theme-1);
 	}
-
 
 	@media (min-width: 680px) {
 		.desktop {

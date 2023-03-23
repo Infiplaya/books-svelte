@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
-	import BookCard from "./BookCard.svelte";
+	import type { PageData } from './$types';
+	import BookCard from './BookCard.svelte';
 	export let data: PageData;
-	$: ({books, userLists} = data)
+	$: ({ books, userLists, user } = data);
 </script>
 
 <svelte:head>
@@ -10,11 +10,11 @@
 	<meta name="description" content="Books app" />
 </svelte:head>
 <h1>Books</h1>
- <section class="books">
+<section class="books">
 	{#each books as book}
-	<BookCard book={book} userLists={userLists} isDetailPage={false}/>
+		<BookCard {book} {userLists} isDetailPage={false} {user} />
 	{/each}
- </section>
+</section>
 
 <style>
 	.books {
@@ -26,9 +26,7 @@
 		width: 100%;
 	}
 
-
-	 h1 {
+	h1 {
 		margin: 20px 0px;
-	 }
-
+	}
 </style>

@@ -192,7 +192,7 @@
 		background-color: var(--color-white);
 		padding: 30px;
 		max-width: 400px;
-		height: 460px;
+		height: 550px;
 		display: flex;
 		flex-direction: column;
 	}
@@ -259,6 +259,10 @@
 		.card-grid {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
+		}
+
+		.book-card {
+			height: 500px;
 		}
 	}
 </style>

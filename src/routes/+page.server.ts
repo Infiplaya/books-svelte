@@ -14,7 +14,11 @@ export const load: ServerLoad = async ({ locals }) => {
 			}
 		});
 		return {
-			books: await prisma.book.findMany(),
+			books: await prisma.book.findMany(
+				{
+					take: 10,
+				}
+			),
 			userLists
 		};
 	}

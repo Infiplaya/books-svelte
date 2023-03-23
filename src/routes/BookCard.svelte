@@ -111,8 +111,7 @@
 			gap: 16px;
 		}
 
-		
-
+	
 		.info {
 			display: flex;
 			flex-direction: column;

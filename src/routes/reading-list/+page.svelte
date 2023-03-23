@@ -39,5 +39,9 @@
 		gap: 20px;
 	}
 
+	h1 {
+		margin: 20px 0px;
+	 }
+
 
 </style>

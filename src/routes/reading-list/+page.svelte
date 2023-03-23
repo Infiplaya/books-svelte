@@ -1,11 +1,9 @@
-
 <script lang="ts">
-	import type { PageData } from "./$types";
+	import type { PageData } from './$types';
 	export let data: PageData;
-	import BookCard from "../BookCard.svelte";
-	$: ({userLists} = data)
-    $: readingList = userLists!.readingList
-
+	import BookCard from '../../lib/components/BookCard.svelte';
+	$: ({ userLists, user } = data);
+	$: readingList = userLists!.readingList;
 </script>
 
 <svelte:head>
@@ -14,13 +12,13 @@
 </svelte:head>
 
 <section>
- <h1>Reading list</h1>
+	<h1>Reading list</h1>
 
- <section class="books">
-	{#each readingList as book}
-	<BookCard book={book} userLists={userLists} isDetailPage={false} />
-	{/each}
- </section>
+	<section class="books">
+		{#each readingList as book}
+			<BookCard {book} {userLists} isDetailPage={false} {user} />
+		{/each}
+	</section>
 </section>
 
 <style>
@@ -40,7 +38,5 @@
 
 	h1 {
 		margin: 20px 0px;
-	 }
-
-
+	}
 </style>

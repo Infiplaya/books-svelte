@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { PageData } from './$types';
+	import type { PageData } from '../../routes/$types';
 	import { fly } from 'svelte/transition';
 	import Hamburger from './Hamburger.svelte';
 	export let data: PageData;

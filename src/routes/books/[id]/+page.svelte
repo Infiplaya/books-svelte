@@ -28,6 +28,9 @@
 		}
 		return;
 	}
+
+	let readingLoading = false;
+	let finishedLoading = false;
 </script>
 
 <svelte:head>
@@ -40,15 +43,40 @@
 		<div class="left-panel">
 			<img src={book.image} alt={book.title} width="200" class="book-img" />
 			<div class="action-buttons">
-				{#if userLists?.readingList.map((item) => item.id).includes(book.id)}
-					<form action="?/removeFromReadingList" method="POST" use:enhance>
+				{#if readingLoading}
+					<div class="lds-hourglass" />
+				{:else if userLists?.readingList.map((item) => item.id).includes(book.id)}
+					<form
+						action="?/removeFromReadingList"
+						method="POST"
+						use:enhance={({ form, data, action, cancel, submitter }) => {
+							readingLoading = true;
+
+							return async ({ result, update }) => {
+								await update();
+								readingLoading = false;
+							};
+						}}
+					>
 						<input type="hidden" value={book.id} id="id" name="id" />
+
 						<button class="icon" aria-current="true" type="submit" title="Remove from reading list">
 							<FaBookmark />
 						</button>
 					</form>
 				{:else}
-					<form action="?/addToReadingList" method="POST" use:enhance>
+					<form
+						action="?/addToReadingList"
+						method="POST"
+						use:enhance={({ form, data, action, cancel, submitter }) => {
+							readingLoading = true;
+							
+							return async ({ result, update }) => {
+								await update();
+								readingLoading = false;
+							};
+						}}
+					>
 						<input type="hidden" value={book.id} id="id" name="id" />
 						<button
 							class="icon"
@@ -60,15 +88,40 @@
 						</button>
 					</form>
 				{/if}
-				{#if userLists?.finishedList.map((item) => item.id).includes(book.id)}
-					<form action="?/removeFromFinishedList" method="POST" use:enhance>
+
+				{#if finishedLoading}
+					<div class="lds-hourglass" />
+				{:else if userLists?.finishedList.map((item) => item.id).includes(book.id)}
+					<form
+						action="?/removeFromFinishedList"
+						method="POST"
+						use:enhance={({ form, data, action, cancel, submitter }) => {
+							finishedLoading = true;
+
+							return async ({ result, update }) => {
+								await update();
+								finishedLoading = false;
+							};
+						}}
+					>
 						<input type="hidden" value={book.id} id="id" name="id" />
 						<button class="icon" type="submit" aria-current="true" title="Mark as unfinished">
 							<FaCheckCircle />
 						</button>
 					</form>
 				{:else}
-					<form action="?/addToFinishedList" method="POST" use:enhance>
+					<form
+						action="?/addToFinishedList"
+						method="POST"
+						use:enhance={({ form, data, action, cancel, submitter }) => {
+							finishedLoading = true;
+
+							return async ({ result, update }) => {
+								await update();
+								finishedLoading = false;
+							};
+						}}
+					>
 						<input type="hidden" value={book.id} id="id" name="id" />
 						<button
 							class="icon"
@@ -81,6 +134,7 @@
 					</form>
 				{/if}
 			</div>
+
 			{#if readingError}
 				<p class="error">{readingError}</p>
 			{/if}
@@ -165,6 +219,37 @@
 		.card-grid {
 			display: grid;
 			grid-template-columns: repeat(12, minmax(0, 1fr));
+		}
+	}
+
+	.lds-hourglass {
+		display: inline-block;
+		position: relative;
+		width: 36px;
+		height: 36px;
+	}
+	.lds-hourglass:after {
+		content: ' ';
+		display: block;
+		border-radius: 50%;
+		width: 0;
+		height: 0;
+		box-sizing: border-box;
+		border: 20px solid var(--color-theme-2);
+		border-color: var(--color-theme-2) transparent var(--color-theme-2) transparent;
+		animation: lds-hourglass 1.2s infinite;
+	}
+	@keyframes lds-hourglass {
+		0% {
+			transform: rotate(0);
+			animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+		}
+		50% {
+			transform: rotate(900deg);
+			animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+		}
+		100% {
+			transform: rotate(1800deg);
 		}
 	}
 </style>

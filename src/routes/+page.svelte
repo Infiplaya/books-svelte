@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Book } from '@prisma/client';
 	import type { PageData } from './$types';
-	import BookCard from './BookCard.svelte';
+	import BookCard from '../lib/components/BookCard.svelte';
 	export let data: PageData;
 	$: ({ books, userLists, user } = data);
 

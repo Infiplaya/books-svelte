@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Header from './Header.svelte';
+	import Header from '../lib/components/Header.svelte';
 	import './styles/styles.css';
 	import './styles/fonts.css'
 	import type { PageData } from './$types'

@@ -5,7 +5,6 @@
 	import BookCard from "../BookCard.svelte";
 	$: ({userLists} = data)
     $: readingList = userLists!.readingList
-	$: console.log(readingList)
 
 </script>
 

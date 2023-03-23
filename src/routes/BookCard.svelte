@@ -137,7 +137,7 @@
 
 	.book-card {
 		box-shadow: 0px 0px 4px rgb(190, 172, 172);
-		background-color: rgb(248, 246, 245);
+		background-color: var(--color-white);
 		padding: 30px;
 		max-width: 400px;
 		display: flex;

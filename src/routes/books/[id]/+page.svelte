@@ -110,6 +110,8 @@
 	}
 	.book {
 		margin-top: 20px;
+		background-color: var(--color-white);
+		padding: 80px;
 	}
 	.icon {
 		background-color: transparent;

@@ -159,6 +159,10 @@
 	}
 
 	@media (min-width: 680px) {
+
+		header {
+			margin-top: 28px;
+		}
 		.desktop {
 			display: flex;
 		}

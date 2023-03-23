@@ -6,6 +6,7 @@
 	--font-mono: 'Fira Mono', monospace;
 	--color-bg-1: #f7e9d5;
 	--color-theme-1: #e9a178;
+	--color-white: rgb(248, 246, 245);
 	--color-1-lighter: #f5b591;
 	--color-theme-2: #a84448;
 	--color-theme-3: #7a3e65;
@@ -16,7 +17,6 @@
 	color: var(--color-text);
 	font-size: 1.1rem;
 }
-
 
 body {
 	min-height: 100vh;

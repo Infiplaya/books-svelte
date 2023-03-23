@@ -1,3 +1,8 @@
+<script lang="ts">
+	import { enhance } from '$app/forms';
+
+	export let form;
+</script>
 
 <svelte:head>
 	<title>Login</title>
@@ -5,23 +10,23 @@
 </svelte:head>
 
 <section class="login">
-	<form method="POST">
+	<form method="POST" use:enhance>
 		<hgroup>
 			<h1>Login</h1>
 		</hgroup>
 		<label for="username">Username</label>
 		<input type="text" id="username" name="username" required />
-	
+
 		<label for="password">Password</label>
 		<input type="password" id="password" name="password" required />
-	
+
 		<button type="submit" class="primary-button">Login</button>
+		{#if form?.message}
+			<p class="error">{form.message}</p>
+		{/if}
 	</form>
 	<p>Don't have an account? <a href="/register">Register</a></p>
 </section>
-
-
-
 
 <style>
 	.login {
@@ -37,7 +42,13 @@
 		align-items: flex-start;
 	}
 
-	input, hgroup {
+	.error {
+		color: var(--color-theme-2);
+		font-size: 1rem;
+	}
+
+	input,
+	hgroup {
 		margin-bottom: 1.2rem;
 	}
 
@@ -67,7 +78,6 @@
 	a {
 		color: var(--color-theme-2);
 	}
-
 
 	a:hover {
 		text-decoration-line: underline;

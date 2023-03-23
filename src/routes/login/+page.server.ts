@@ -21,7 +21,7 @@ export const actions: Actions = {
 			locals.setSession(session)
 		} catch (err) {
 			console.error(err)
-			return fail(400, { message: "Could not login user." })
+			return fail(400, { message: "Invalid credentials." })
 		}
 		throw redirect(302, "/")
 	},

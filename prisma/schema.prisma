@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
@@ -45,7 +45,7 @@ model Key {
 }
 
 model Book {
-  id            Int      @id @default(autoincrement())
+  id            BigInt   @id @default(sequence())
   createdAt     DateTime @default(now())
   title         String
   author        String

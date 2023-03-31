@@ -4,7 +4,7 @@
 	export let open = false;
 
 	export let user: PageData['user'];
-
+	
 
 	function closeNav() {
 		open = false;

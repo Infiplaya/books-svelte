@@ -1,20 +1,8 @@
 <script lang="ts">
-	import type { Book } from '@prisma/client';
 	import type { PageData } from './$types';
 	import BookCard from '../lib/components/BookCard.svelte';
 	export let data: PageData;
-	$: ({ books, userLists, user } = data);
-
-	let filteredBooks: Book[] = [];
-
-	let search = '';
-
-	const searchBooks = () => {
-		return (filteredBooks = books.filter((book) => {
-			let bookTitle = book.title.toLowerCase();
-			return bookTitle.includes(search.toLowerCase());
-		}));
-	};
+	$: ({ books, userLists, user, streamed } = data);
 </script>
 
 <svelte:head>
@@ -24,27 +12,20 @@
 
 <section class="books">
 	<h1>Books</h1>
-	<fieldset class="book-filter">
-		<label for="filter-input">Search books</label>
-		<input
-			type="text"
-			on:input={searchBooks}
-			bind:value={search}
-			class="filter-input"
-			id="filter-input"
-		/>
-	</fieldset>
-	{#if search && filteredBooks.length === 0}
-		<h2>No books</h2>
-	{:else if filteredBooks.length > 0}
-		{#each filteredBooks as book}
-			<BookCard {book} {userLists} isDetailPage={false} {user} />
-		{/each}
-	{:else}
+
+	{#each books as book}
+		<BookCard {book} {userLists} isDetailPage={false} {user} />
+	{/each}
+
+	{#await streamed.rest}
+		Loading More books...
+	{:then books}
 		{#each books as book}
 			<BookCard {book} {userLists} isDetailPage={false} {user} />
 		{/each}
-	{/if}
+	{:catch error}
+		{error.message}
+	{/await}
 </section>
 
 <style>

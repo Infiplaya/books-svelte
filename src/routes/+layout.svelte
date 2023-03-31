@@ -1,14 +1,13 @@
 <script lang="ts">
 	import Header from '../lib/components/Header.svelte';
 	import './styles/styles.css';
-	import './styles/fonts.css'
-	import type { PageData } from './$types'
-	export let data: PageData
+	import './styles/fonts.css';
+	import type { PageData } from './$types';
+	export let data: PageData;
 </script>
 
 <div class="app">
-	<Header data={data} />
-
+	<Header {data} />
 	<main>
 		<slot />
 	</main>

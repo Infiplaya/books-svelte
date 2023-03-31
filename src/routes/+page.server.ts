@@ -3,6 +3,14 @@ import { prisma } from '../lib/server/prisma';
 
 export const load: ServerLoad = async ({ locals }) => {
 	const { user } = await locals.validateUser();
+	const books = await prisma.book.findMany({
+		take: 10
+	});
+
+	const rest = await prisma.book.findMany({
+		take: 90,
+		skip: 10
+	});
 	if (user) {
 		const userLists = await prisma.user.findUnique({
 			where: {
@@ -14,11 +22,19 @@ export const load: ServerLoad = async ({ locals }) => {
 			}
 		});
 		return {
-			books: await prisma.book.findMany(),
+			books,
+			streamed: {
+				rest
+			},
 			userLists
 		};
 	}
-	return { books: await prisma.book.findMany() };
+	return {
+		books,
+		streamed: {
+			rest
+		}
+	};
 };
 
 export const actions: Actions = {

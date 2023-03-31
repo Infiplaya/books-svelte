@@ -11,7 +11,7 @@
 	<meta name="description" content="Books app" />
 </svelte:head>
 
-<section>
+
 	<h1>Reading list</h1>
 
 	<section class="books">
@@ -19,21 +19,15 @@
 			<BookCard {book} {userLists} isDetailPage={false} {user} />
 		{/each}
 	</section>
-</section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
 
 	.books {
 		display: flex;
+		justify-content: center;
+		align-items: center;
 		flex-direction: column;
-		gap: 20px;
+		gap: 40px;
 	}
 
 	h1 {

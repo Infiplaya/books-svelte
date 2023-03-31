@@ -6,13 +6,12 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Books-Svelte</title>
 	<meta name="description" content="Books app" />
 </svelte:head>
 
 <section class="books">
 	<h1>Books</h1>
-
 	{#each books as book}
 		<BookCard {book} {userLists} isDetailPage={false} {user} />
 	{/each}
@@ -25,27 +24,8 @@
 		align-items: center;
 		flex-direction: column;
 		gap: 40px;
-		width: 100%;
 	}
-
-	.filter-input {
-		padding: 6px 12px;
-		box-shadow: 0px 0px 1px rgb(190, 172, 172);
-	}
-
-	.filter-input:focus {
-		outline-color: var(--color-theme-1);
-	}
-
-	.book-filter {
-		display: flex;
-		flex-direction: column;
-		border: none;
-		font-size: 1.2rem;
-		gap: 10px;
-		margin-top: -26px;
-	}
-
+	
 	h1 {
 		margin: 20px 0px;
 	}

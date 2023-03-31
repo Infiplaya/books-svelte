@@ -1,19 +1,25 @@
 <script lang="ts">
-	import Header from '../lib/components/Header.svelte';
 	import './styles/styles.css';
 	import './styles/fonts.css';
+	import Sidebar from '../lib/components/Sidebar.svelte';
+	import Header from '../lib/components/Header.svelte';
 	import type { PageData } from './$types';
+	let open = false;
+
 	export let data: PageData;
+
+	let { user } = data;
 </script>
 
 <div class="app">
-	<Header {data} />
+	<Sidebar bind:open {user} />
+	<Header bind:sidebar={open} {user} />
 	<main>
 		<slot />
 	</main>
 
 	<footer>
-		<p>Made by me</p>
+		<p>Made with love</p>
 	</footer>
 </div>
 

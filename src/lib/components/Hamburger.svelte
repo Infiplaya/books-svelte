@@ -1,61 +1,76 @@
-<script lang="ts">
+<script>
 	export let open = false;
-	export let onClick = (): void => {
+
+	function handleOpen() {
 		open = !open;
-	};
-	export let ariaLabel = 'toggle menu';
-	export let width: string | number = 60;
+		toggleScroll();
+	}
+
+	function toggleScroll() {
+		if (open) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	}
 </script>
 
-<button on:click={onClick} aria-expanded={open} aria-label={ariaLabel} class="hamburger-button">
-	<svg class:open viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" {width}>
-		<path
-			class="top"
-			d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"
-		/>
-		<path class="middle" d="m 30,50 h 60" />
-		<path
-			class="bottom"
-			d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"
-		/>
+<button class="hamburger" class:open on:click={handleOpen}>
+	<svg width="32" height="24">
+		<line id="top" x1="0" y1="2" x2="32" y2="2" />
+		<line id="middle" x1="0" y1="12" x2="24" y2="12" />
+		<line id="bottom" x1="0" y1="22" x2="32" y2="22" />
 	</svg>
 </button>
 
 <style>
-	:root {
-		--transition-duration: 400ms;
-	}
-	button {
-		cursor: pointer;
+	.hamburger {
+		margin-right: 1rem;
 		display: flex;
 		align-items: center;
-		overflow: hidden;
-		z-index: 12;
-		background-color: inherit;
+		justify-content: center;
+		margin-top: 1rem;
+		color: var(--color-text);
+		border-style: none;
+		cursor: pointer;
+		background-color: var(--color-white);
+		padding: 0.5rem;
 	}
+
 	svg {
-		transition: transform var(--transition-duration);
+		min-height: 24px;
+		transition: transform 0.3s ease-in-out;
 	}
-	.top {
-		stroke-dasharray: 40 160;
-		transition: stroke-dashoffset var(--transition-duration);
+
+	svg line {
+		stroke: currentColor;
+		stroke-width: 3;
+		transition: transform 0.3s ease-in-out;
 	}
-	.middle {
-		transform-origin: 50%;
-		transition: transform var(--transition-duration);
+
+	button {
+		z-index: 20;
 	}
-	.bottom {
-		stroke-dasharray: 40 85;
-		transition: stroke-dashoffset var(--transition-duration);
+
+	.open svg {
+		transform: scale(0.7);
 	}
-	.open {
-		transform: rotate(45deg);
+
+	.open #top {
+		transform: translate(6px, 0px) rotate(45deg);
 	}
-	.open .top,
-	.open .bottom {
-		stroke-dashoffset: -64px;
+
+	.open #middle {
+		opacity: 0;
 	}
-	.open .middle {
-		transform: rotate(90deg);
+
+	.open #bottom {
+		transform: translate(-12px, 9px) rotate(-45deg);
+	}
+
+	@media (min-width: 640px) {
+		.hamburger {
+			display: none;
+		}
 	}
 </style>

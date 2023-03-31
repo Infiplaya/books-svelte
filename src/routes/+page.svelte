@@ -2,7 +2,7 @@
 	import type { PageData } from './$types';
 	import BookCard from '../lib/components/BookCard.svelte';
 	export let data: PageData;
-	$: ({ books, userLists, user, streamed } = data);
+	$: ({ books, userLists, user } = data);
 </script>
 
 <svelte:head>
@@ -16,16 +16,6 @@
 	{#each books as book}
 		<BookCard {book} {userLists} isDetailPage={false} {user} />
 	{/each}
-
-	{#await streamed.rest}
-		Loading More books...
-	{:then books}
-		{#each books as book}
-			<BookCard {book} {userLists} isDetailPage={false} {user} />
-		{/each}
-	{:catch error}
-		{error.message}
-	{/await}
 </section>
 
 <style>

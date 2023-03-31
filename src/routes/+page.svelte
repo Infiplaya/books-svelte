@@ -1,26 +1,18 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import BookCard from '../lib/components/BookCard.svelte';
-	import { createSearchStore, searchHandler } from '$lib/stores/search';
-	import { onDestroy } from 'svelte';
-	import type { Book } from '@prisma/client';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	export let data: PageData;
-	$: ({ userLists, user } = data);
+	$: ({ userLists, user, totalPages, currentPage, books } = data);
 
-	interface SearchBook extends Book {
-		searchTerms: string;
+	let search = '';
+
+	function handleSearch() {
+		$page.url.searchParams.set('search', search);
+		goto(`?${$page.url.searchParams.toString().toLowerCase()}`);
 	}
 
-	const searchBooks: SearchBook[] = data.books.map((book) => ({
-		...book,
-		searchTerms: `${book.title} ${book.description}`
-	}));
-
-	const searchStore = createSearchStore(searchBooks);
-	const unsubscribe = searchStore.subscribe((model) => searchHandler(model));
-	onDestroy(() => {
-		unsubscribe();
-	});
 </script>
 
 <svelte:head>
@@ -32,15 +24,26 @@
 	<h1>Books</h1>
 	<div class="search-div">
 		<h2>Search</h2>
-		<input type="search" placeholder="Search..." bind:value={$searchStore.search} />
+		<form on:submit|preventDefault={handleSearch}>
+			<input type="search" placeholder="Search..." bind:value={search} />
+		</form>
 	</div>
-	{#if $searchStore.filtered.length === 0}
-		No results...
+	{#if !books}
+		We didn't find anything like this...
 	{/if}
-	{#each $searchStore.filtered as book}
-		<BookCard {book} {userLists} isDetailPage={false} {user} />
+	{#each books as book}
+		<BookCard {book} {userLists} {user} />
 	{/each}
 </section>
+
+<div>
+	{#if currentPage > 1}
+		<a href={`?page=${currentPage - 1}`}>Previous</a>
+	{/if}
+	{#if currentPage < totalPages}
+		<a href={`?page=${currentPage + 1}`}>Next</a>
+	{/if}
+</div>
 
 <style>
 	input {

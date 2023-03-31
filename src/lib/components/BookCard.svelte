@@ -14,7 +14,6 @@
 
 	export let book: Book;
 	export let userLists: PageData['userLists'];
-	export let isDetailPage: boolean;
 	export let user: User;
 
 	function truncateString(str: string, maxLength: number = 250) {
@@ -56,11 +55,7 @@
 			<div class="info">
 				<h2>{book.title}</h2>
 				<h3>{book.author}</h3>
-				{#if isDetailPage}
-					<p>{book.description}</p>
-				{:else}
-					<p>{truncateString(book.description)}</p>
-				{/if}
+				<p class="text-sm">{truncateString(book.description)}</p>
 			</div>
 		</div>
 	</a>
@@ -192,7 +187,6 @@
 		background-color: var(--color-white);
 		padding: 30px;
 		max-width: 400px;
-		height: 550px;
 		display: flex;
 		flex-direction: column;
 	}
@@ -259,10 +253,6 @@
 		.card-grid {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
-		}
-
-		.book-card {
-			height: 500px;
 		}
 	}
 </style>

@@ -1,9 +1,27 @@
 import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { prisma } from '../lib/server/prisma';
 
-export const load: ServerLoad = async ({ locals }) => {
+export const load: ServerLoad = async ({ locals, url }) => {
+	const page = url.searchParams.get('page');
+	const search = url.searchParams.get('search');
+	const booksPerPage = 10;
+	const currentPage = page ? parseInt(page) : 1;
+	const offset = (currentPage - 1) * booksPerPage;
+
+	const totalBooks = await prisma.book.count();
+	const totalPages = Math.ceil(totalBooks / booksPerPage);
+
+	const books = await prisma.book.findMany({
+		where: {
+			title: { contains: search ?? '', mode: 'insensitive' }
+		},
+		skip: offset,
+		take: booksPerPage,
+		orderBy: { createdAt: 'desc' }
+	});
+
 	const { user } = await locals.validateUser();
-	const books = await prisma.book.findMany();
+
 	if (user) {
 		const userLists = await prisma.user.findUnique({
 			where: {
@@ -16,10 +34,13 @@ export const load: ServerLoad = async ({ locals }) => {
 		});
 		return {
 			books,
-			userLists
+			currentPage,
+			totalPages,
+			userLists,
+			totalBooks
 		};
 	}
-	return { books };
+	return { books, currentPage, totalPages, totalBooks };
 };
 
 export const actions: Actions = {

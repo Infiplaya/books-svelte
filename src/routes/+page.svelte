@@ -1,18 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import BookCard from '../lib/components/BookCard.svelte';
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	export let data: PageData;
 	$: ({ userLists, user, totalPages, currentPage, books } = data);
-
-	let search = '';
-
-	function handleSearch() {
-		$page.url.searchParams.set('search', search);
-		goto(`?${$page.url.searchParams.toString().toLowerCase()}`);
-	}
-
 </script>
 
 <svelte:head>
@@ -24,8 +14,8 @@
 	<h1>Books</h1>
 	<div class="search-div">
 		<h2>Search</h2>
-		<form on:submit|preventDefault={handleSearch}>
-			<input type="search" placeholder="Search..." bind:value={search} />
+		<form method="GET">
+			<input type="search" placeholder="Search..." id="search" name="search" />
 		</form>
 	</div>
 	{#if !books}
@@ -34,16 +24,15 @@
 	{#each books as book}
 		<BookCard {book} {userLists} {user} />
 	{/each}
+	<div>
+		{#if currentPage > 1}
+			<a href={`?page=${currentPage - 1}`} class="primary-button">Previous</a>
+		{/if}
+		{#if currentPage < totalPages}
+			<a href={`?page=${currentPage + 1}`} class="primary-button">Next</a>
+		{/if}
+	</div>
 </section>
-
-<div>
-	{#if currentPage > 1}
-		<a href={`?page=${currentPage - 1}`}>Previous</a>
-	{/if}
-	{#if currentPage < totalPages}
-		<a href={`?page=${currentPage + 1}`}>Next</a>
-	{/if}
-</div>
 
 <style>
 	input {

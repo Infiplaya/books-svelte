@@ -4,6 +4,7 @@ import { prisma } from '../lib/server/prisma';
 export const load: ServerLoad = async ({ locals, url }) => {
 	const page = url.searchParams.get('page');
 	const search = url.searchParams.get('search');
+	console.log(search);
 	const booksPerPage = 10;
 	const currentPage = page ? parseInt(page) : 1;
 	const offset = (currentPage - 1) * booksPerPage;
@@ -13,11 +14,15 @@ export const load: ServerLoad = async ({ locals, url }) => {
 
 	const books = await prisma.book.findMany({
 		where: {
-			title: { contains: search ?? '', mode: 'insensitive' }
+			OR: [
+				{ title: { contains: search ?? '', mode: 'insensitive' } },
+				{ description: { contains: search ?? '', mode: 'insensitive' } },
+				{ author: { contains: search ?? '', mode: 'insensitive' } }
+			]
 		},
 		skip: offset,
 		take: booksPerPage,
-		orderBy: { createdAt: 'desc' }
+		orderBy: { title: 'asc' }
 	});
 
 	const { user } = await locals.validateUser();

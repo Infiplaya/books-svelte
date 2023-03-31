@@ -70,7 +70,7 @@
 						method="POST"
 						use:enhance={({ form, data, action, cancel, submitter }) => {
 							readingLoading = true;
-							
+
 							return async ({ result, update }) => {
 								await update();
 								readingLoading = false;
@@ -163,9 +163,9 @@
 		margin-top: 16px;
 	}
 	.book {
-		margin-top: 20px;
+		margin-top: 10px;
 		background-color: var(--color-white);
-		padding: 80px;
+		padding: 20px;
 	}
 	.icon {
 		background-color: transparent;
@@ -215,13 +215,6 @@
 		margin-top: 20px;
 	}
 
-	@media (min-width: 640px) {
-		.card-grid {
-			display: grid;
-			grid-template-columns: repeat(12, minmax(0, 1fr));
-		}
-	}
-
 	.lds-hourglass {
 		display: inline-block;
 		position: relative;
@@ -250,6 +243,17 @@
 		}
 		100% {
 			transform: rotate(1800deg);
+		}
+	}
+
+	@media (min-width: 640px) {
+		.card-grid {
+			display: grid;
+			grid-template-columns: repeat(12, minmax(0, 1fr));
+		}
+
+		.book {
+			padding: 80px;
 		}
 	}
 </style>

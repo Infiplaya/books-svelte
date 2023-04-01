@@ -3,14 +3,6 @@ import { prisma } from '../lib/server/prisma';
 
 let cold = true;
 
-function sleep(value: any, ms: number) {
-	return new Promise((fulfil) => {
-		setTimeout(() => {
-			fulfil(value);
-		}, ms);
-	});
-}
-
 export const load: ServerLoad = async ({ locals }) => {
 	// const page = url.searchParams.get('page');
 	// const search = url.searchParams.get('search');
@@ -39,11 +31,11 @@ export const load: ServerLoad = async ({ locals }) => {
 	cold = false;
 
 	const firstBooks = await prisma.book.findMany({
-		take: 10
+		take: 2
 	});
 
 	const rest = await prisma.book.findMany({
-		skip: 10
+		skip: 2
 	});
 
 	const { user } = await locals.validateUser();

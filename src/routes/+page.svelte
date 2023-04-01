@@ -1,8 +1,28 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import BookCard from '../lib/components/BookCard.svelte';
+	import { createSearchStore, searchHandler } from '$lib/stores/search';
+	import type { Book } from '@prisma/client';
+	import { onDestroy } from 'svelte';
 	export let data: PageData;
-	$: ({ userLists, user, books } = data);
+	$: ({ userLists, user } = data);
+	interface SearchBook extends Book {
+		searchTerms: string;
+	}
+
+	const allBooks = data.books.concat(data.streamed.rest);
+
+	console.log(allBooks);
+
+	const searchBooks: SearchBook[] = allBooks.map((book) => ({
+		...book,
+		searchTerms: `${book.title} ${book.description}`
+	}));
+	const searchStore = createSearchStore(searchBooks);
+	const unsubscribe = searchStore.subscribe((model) => searchHandler(model));
+	onDestroy(() => {
+		unsubscribe();
+	});
 </script>
 
 <svelte:head>
@@ -10,32 +30,19 @@
 	<meta name="description" content="Books app" />
 </svelte:head>
 
+<h1>Books</h1>
+<div>
+	<h2>Search</h2>
+	<input type="search" placeholder="Search..." bind:value={$searchStore.search} />
+</div>
+
 <section class="books">
-	<h1>Books</h1>
-	<div class="search-div">
-		<h3>Search</h3>
-		<form method="GET">
-			<input type="search" placeholder="Search..." id="search" name="search" />
-		</form>
-	</div>
-	{#each books as book}
+	{#if $searchStore.filtered.length === 0}
+		No results...
+	{/if}
+	{#each $searchStore.filtered as book}
 		<BookCard {book} {userLists} {user} />
 	{/each}
-	{#await data.streamed.rest}
-		<p>streaming delayed data from the server...</p>
-	{:then rest}
-		{#each rest as book}
-			<BookCard {book} {userLists} {user} />
-		{/each}
-	{/await}
-	<!-- <div>
-		{#if currentPage > 1}
-			<a href={`?page=${currentPage - 1}`} class="primary-button">Previous</a>
-		{/if}
-		{#if currentPage < totalPages}
-			<a href={`?page=${currentPage + 1}`} class="primary-button">Next</a>
-		{/if}
-	</div> -->
 </section>
 
 <style>

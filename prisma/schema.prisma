@@ -46,7 +46,7 @@ model Key {
 }
 
 model Book {
-  id            BigInt   @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   createdAt     DateTime @default(now())
   title         String
   author        String

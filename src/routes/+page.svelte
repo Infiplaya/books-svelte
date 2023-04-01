@@ -5,8 +5,7 @@
 	import type { Book } from '@prisma/client';
 	import { onDestroy } from 'svelte';
 	export let data: PageData;
-	$: ({ userLists, user } = data);
-
+	$: ({ userLists } = data);
 	export let form;
 	interface SearchBook extends Book {
 		searchTerms: string;

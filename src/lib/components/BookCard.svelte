@@ -1,12 +1,7 @@
 <script lang="ts">
-	type User = {
-		userId: string;
-		username: string;
-	} | null;
-
 	import { enhance } from '$app/forms';
 	import type { Book } from '@prisma/client';
-	import type { PageData } from '../../routes/$types';
+	import type { ActionData, PageData } from '../../routes/$types';
 	import FaRegBookmark from 'svelte-icons/fa/FaRegBookmark.svelte';
 	import FaBookmark from 'svelte-icons/fa/FaBookmark.svelte';
 	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte';
@@ -14,7 +9,7 @@
 
 	export let book: Book;
 	export let userLists: PageData['userLists'];
-	export let user: User;
+	export let form: ActionData;
 
 	function truncateString(str: string, maxLength: number = 250) {
 		if (str.length > maxLength) {
@@ -24,28 +19,26 @@
 		}
 	}
 
-	let readingError: string;
-
-	function handleReadingError() {
-		finishedError = '';
-		if (!user) {
-			readingError = 'Only logged in users can add books to reading list';
-		}
-		return;
-	}
-
-	let finishedError: string;
-
-	function handleFinishedError() {
-		readingError = '';
-		if (!user) {
-			finishedError = 'Only logged in users can mark books as finished';
-		}
-		return;
-	}
-
 	let readingLoading = false;
 	let finishedLoading = false;
+
+	function handleReadingLoading() {
+		readingLoading = true;
+
+		return async ({ update }: { update: () => Promise<void> }) => {
+			await update();
+			readingLoading = false;
+		};
+	}
+
+	function handleFinishedLoading() {
+		finishedLoading = true;
+
+		return async ({ update }: { update: () => Promise<void> }) => {
+			await update();
+			finishedLoading = false;
+		};
+	}
 </script>
 
 <div class="book-card">
@@ -64,18 +57,7 @@
 			{#if readingLoading}
 				<div class="lds-hourglass" />
 			{:else if userLists?.readingList.map((item) => item.id).includes(book.id)}
-				<form
-					action="?/removeFromReadingList"
-					method="POST"
-					use:enhance={({ form, data, action, cancel, submitter }) => {
-						readingLoading = true;
-
-						return async ({ result, update }) => {
-							await update();
-							readingLoading = false;
-						};
-					}}
-				>
+				<form action="?/removeFromReadingList" method="POST" use:enhance={handleReadingLoading}>
 					<input type="hidden" value={book.id} id="id" name="id" />
 
 					<button class="icon" aria-current="true" type="submit" title="Remove from reading list">
@@ -83,25 +65,9 @@
 					</button>
 				</form>
 			{:else}
-				<form
-					action="?/addToReadingList"
-					method="POST"
-					use:enhance={({ form, data, action, cancel, submitter }) => {
-						readingLoading = true;
-
-						return async ({ result, update }) => {
-							await update();
-							readingLoading = false;
-						};
-					}}
-				>
+				<form action="?/addToReadingList" method="POST" use:enhance={handleReadingLoading}>
 					<input type="hidden" value={book.id} id="id" name="id" />
-					<button
-						class="icon"
-						type="submit"
-						title="Add to reading list"
-						on:click={handleReadingError}
-					>
+					<button class="icon" type="submit" title="Add to reading list">
 						<FaRegBookmark />
 					</button>
 				</form>
@@ -110,50 +76,22 @@
 			{#if finishedLoading}
 				<div class="lds-hourglass" />
 			{:else if userLists?.finishedList.map((item) => item.id).includes(book.id)}
-				<form
-					action="?/removeFromFinishedList"
-					method="POST"
-					use:enhance={({ form, data, action, cancel, submitter }) => {
-						finishedLoading = true;
-
-						return async ({ result, update }) => {
-							await update();
-							finishedLoading = false;
-						};
-					}}
-				>
+				<form action="?/removeFromFinishedList" method="POST" use:enhance={handleFinishedLoading}>
 					<input type="hidden" value={book.id} id="id" name="id" />
 					<button class="icon" type="submit" aria-current="true" title="Mark as unfinished">
 						<FaCheckCircle />
 					</button>
 				</form>
 			{:else}
-				<form
-					action="?/addToFinishedList"
-					method="POST"
-					use:enhance={({ form, data, action, cancel, submitter }) => {
-						finishedLoading = true;
-
-						return async ({ result, update }) => {
-							await update();
-							finishedLoading = false;
-						};
-					}}
-				>
+				<form action="?/addToFinishedList" method="POST" use:enhance={handleFinishedLoading}>
 					<input type="hidden" value={book.id} id="id" name="id" />
-					<button class="icon" type="submit" title="Add to finished" on:click={handleFinishedError}>
+					<button class="icon" type="submit" title="Add to finished">
 						<FaPlusCircle />
 					</button>
 				</form>
 			{/if}
 		</div>
-
-		{#if readingError}
-			<p class="error">{readingError}</p>
-		{/if}
-		{#if finishedError}
-			<p class="error">{finishedError}</p>
-		{/if}
+		{#if form?.message}<p class="error">Sign in to perform this action!</p>{/if}
 	</div>
 </div>
 
@@ -197,7 +135,8 @@
 
 	.flex {
 		display: flex;
-		flex-direction: row-reverse;
+		align-items: center;
+		justify-content: space-between;
 	}
 
 	.card-grid {

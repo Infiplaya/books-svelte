@@ -6,6 +6,8 @@
 	import { onDestroy } from 'svelte';
 	export let data: PageData;
 	$: ({ userLists, user } = data);
+
+	export let form;
 	interface SearchBook extends Book {
 		searchTerms: string;
 	}
@@ -36,7 +38,7 @@
 		No results...
 	{/if}
 	{#each $searchStore.filtered as book}
-		<BookCard {book} {userLists} {user} />
+		<BookCard {book} {userLists} {form} />
 	{/each}
 </section>
 

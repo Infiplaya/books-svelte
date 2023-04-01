@@ -41,7 +41,7 @@ export const actions: Actions = {
 		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
-			return fail(500, { message: 'Only logged in users can add books' });
+			return fail(400, { message: 'Only logged in users can add books' });
 		}
 
 		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
@@ -106,7 +106,7 @@ export const actions: Actions = {
 		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
-			return fail(500, { message: 'Only logged in users can add books' });
+			return fail(400, { message: 'Only logged in users can add books' });
 		}
 
 		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
@@ -126,7 +126,7 @@ export const actions: Actions = {
 			});
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: 'Could not remove this book' });
+			return fail(400, { message: 'Could not remove this book' });
 		}
 
 		return {
@@ -138,7 +138,7 @@ export const actions: Actions = {
 		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
-			return fail(500, { message: 'Only logged in users can add books' });
+			return fail(400, { message: 'Only logged in users can add books' });
 		}
 
 		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;

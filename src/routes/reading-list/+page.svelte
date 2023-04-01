@@ -4,6 +4,8 @@
 	import BookCard from '../../lib/components/BookCard.svelte';
 	$: ({ userLists, user } = data);
 	$: readingList = userLists!.readingList;
+
+	export let form;
 </script>
 
 <svelte:head>
@@ -16,7 +18,7 @@
 
 	<section class="books">
 		{#each readingList as book}
-			<BookCard {book} {userLists} isDetailPage={false} {user} />
+			<BookCard {book} {userLists} {form} />
 		{/each}
 	</section>
 

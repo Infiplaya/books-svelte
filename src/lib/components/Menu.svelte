@@ -18,7 +18,7 @@
 		aria-current={$page.url.pathname === '/finished-list' ? 'page' : undefined}>Finished list</a
 	>
 	{#if user}
-		<form method="POST" action="?/logout">
+		<form method="POST" action="/logout">
 			<button class="primary-button">Logout</button>
 		</form>
 	{:else}

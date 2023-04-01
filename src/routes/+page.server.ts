@@ -1,7 +1,6 @@
 import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { prisma } from '../lib/server/prisma';
 
-
 export const load: ServerLoad = async ({ locals }) => {
 	const books = await prisma.book.findMany();
 	const { user } = await locals.validateUser();
@@ -27,7 +26,6 @@ export const load: ServerLoad = async ({ locals }) => {
 };
 
 export const actions: Actions = {
-	/* Finished books list */
 	addToFinishedList: async ({ request, locals }) => {
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {

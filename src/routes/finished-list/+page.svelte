@@ -2,8 +2,10 @@
 	import type { PageData } from './$types';
 	export let data: PageData;
 	import BookCard from '../../lib/components/BookCard.svelte';
-	$: ({ userLists, user } = data);
+	$: ({ userLists } = data);
 	$: finishedList = userLists!.finishedList;
+
+	export let form;
 </script>
 
 <svelte:head>
@@ -11,13 +13,12 @@
 	<meta name="description" content="Books app" />
 </svelte:head>
 
-
-	<h1>Finished list</h1>
-	<section class="books">
-		{#each finishedList as book}
-			<BookCard {book} {userLists} isDetailPage={false} {user} />
-		{/each}
-	</section>
+<h1>Finished list</h1>
+<section class="books">
+	{#each finishedList as book}
+		<BookCard {book} {userLists} {form} />
+	{/each}
+</section>
 
 <style>
 	.books {

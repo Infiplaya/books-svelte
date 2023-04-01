@@ -4,7 +4,6 @@
 	export let open = false;
 
 	export let user: PageData['user'];
-	
 
 	function closeNav() {
 		open = false;
@@ -26,7 +25,7 @@
 		<a class="link" href="/reading-list" on:click={closeNav}>Reading list</a>
 		<a class="link" href="/finished-list" on:click={closeNav}>Finished list</a>
 		{#if user}
-			<form method="POST" action="?/logout">
+			<form method="POST" action="/logout">
 				<button class="primary-button">Logout</button>
 			</form>
 		{:else}

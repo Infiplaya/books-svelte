@@ -190,6 +190,7 @@
 		.card-grid {
 			display: grid;
 			grid-template-columns: repeat(12, minmax(0, 1fr));
+			gap: 40px;
 		}
 
 		.book {

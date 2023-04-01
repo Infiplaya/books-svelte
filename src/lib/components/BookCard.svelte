@@ -19,6 +19,8 @@
 		}
 	}
 
+	console.log('hi')
+
 	let readingLoading = false;
 	let finishedLoading = false;
 

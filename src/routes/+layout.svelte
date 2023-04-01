@@ -8,7 +8,7 @@
 
 	export let data: PageData;
 
-	let { user } = data;
+	$: ({ user } = data);
 </script>
 
 <div class="app">

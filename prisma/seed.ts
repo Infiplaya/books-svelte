@@ -7,11 +7,11 @@ async function main() {
 	for (const newBook of booksData) {
 		await prisma.book.create({
 			data: {
-                title: newBook.title,
-                description: newBook.description,
-                image: newBook.image_url,
-                author: newBook.authors,
-            }
+				title: newBook.title,
+				description: newBook.description,
+				image: newBook.image_url,
+				author: newBook.authors
+			}
 		});
 	}
 }

@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { page } from '$app/stores';
 
 	export let form;
-
-	let message: string;
-	$: message = $page.url.searchParams.get('message') ?? '';
 </script>
 
 <svelte:head>
@@ -14,9 +10,6 @@
 </svelte:head>
 
 <section class="login">
-	{#if message}
-		<p class="alert">{message}</p>
-	{/if}
 	<form method="POST" use:enhance>
 		<hgroup>
 			<h1>Login</h1>
@@ -36,14 +29,6 @@
 </section>
 
 <style>
-	.alert {
-		background-color: rgba(255, 0, 0, 0.5);
-		padding: 1rem 3rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin-bottom: 4rem;
-	}
 	.login {
 		display: flex;
 		flex-direction: column;

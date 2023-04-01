@@ -2,7 +2,7 @@
 	import type { PageData } from './$types';
 	import BookCard from '../lib/components/BookCard.svelte';
 	export let data: PageData;
-	$: ({ userLists, user, totalPages, currentPage, books } = data);
+	$: ({ userLists, user, books } = data);
 </script>
 
 <svelte:head>
@@ -13,25 +13,29 @@
 <section class="books">
 	<h1>Books</h1>
 	<div class="search-div">
-		<h2>Search</h2>
+		<h3>Search</h3>
 		<form method="GET">
 			<input type="search" placeholder="Search..." id="search" name="search" />
 		</form>
 	</div>
-	{#if !books}
-		We didn't find anything like this...
-	{/if}
 	{#each books as book}
 		<BookCard {book} {userLists} {user} />
 	{/each}
-	<div>
+	{#await data.streamed.rest}
+		<p>streaming delayed data from the server...</p>
+	{:then rest}
+		{#each rest as book}
+			<BookCard {book} {userLists} {user} />
+		{/each}
+	{/await}
+	<!-- <div>
 		{#if currentPage > 1}
 			<a href={`?page=${currentPage - 1}`} class="primary-button">Previous</a>
 		{/if}
 		{#if currentPage < totalPages}
 			<a href={`?page=${currentPage + 1}`} class="primary-button">Next</a>
 		{/if}
-	</div>
+	</div> -->
 </section>
 
 <style>

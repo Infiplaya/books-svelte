@@ -1,28 +1,49 @@
 import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { prisma } from '../lib/server/prisma';
 
-export const load: ServerLoad = async ({ locals, url }) => {
-	const page = url.searchParams.get('page');
-	const search = url.searchParams.get('search');
-	console.log(search);
-	const booksPerPage = 10;
-	const currentPage = page ? parseInt(page) : 1;
-	const offset = (currentPage - 1) * booksPerPage;
+let cold = true;
 
-	const totalBooks = await prisma.book.count();
-	const totalPages = Math.ceil(totalBooks / booksPerPage);
+function sleep(value: any, ms: number) {
+	return new Promise((fulfil) => {
+		setTimeout(() => {
+			fulfil(value);
+		}, ms);
+	});
+}
 
-	const books = await prisma.book.findMany({
-		where: {
-			OR: [
-				{ title: { contains: search ?? '', mode: 'insensitive' } },
-				{ description: { contains: search ?? '', mode: 'insensitive' } },
-				{ author: { contains: search ?? '', mode: 'insensitive' } }
-			]
-		},
-		skip: offset,
-		take: booksPerPage,
-		orderBy: { title: 'asc' }
+export const load: ServerLoad = async ({ locals }) => {
+	// const page = url.searchParams.get('page');
+	// const search = url.searchParams.get('search');
+	// const booksPerPage = 10;
+	// const currentPage = page ? parseInt(page) : 1;
+	// const offset = (currentPage - 1) * booksPerPage;
+
+	// const totalBooks = await prisma.book.count();
+	// const totalPages = Math.ceil(totalBooks / booksPerPage);
+
+	// const books = await prisma.book.findMany({
+	// 	where: {
+	// 		OR: [
+	// 			{ title: { contains: search ?? '', mode: 'insensitive' } },
+	// 			{ description: { contains: search ?? '', mode: 'insensitive' } },
+	// 			{ author: { contains: search ?? '', mode: 'insensitive' } }
+	// 		]
+	// 	},
+	// 	skip: offset,
+	// 	take: booksPerPage,
+	// 	orderBy: { title: 'asc' }
+	// });
+
+	const was_cold = cold;
+
+	cold = false;
+
+	const firstBooks = await prisma.book.findMany({
+		take: 10
+	});
+
+	const rest = await prisma.book.findMany({
+		skip: 10
 	});
 
 	const { user } = await locals.validateUser();
@@ -38,20 +59,26 @@ export const load: ServerLoad = async ({ locals, url }) => {
 			}
 		});
 		return {
-			books,
-			currentPage,
-			totalPages,
-			userLists,
-			totalBooks
+			books: firstBooks,
+			streamed: {
+				rest,
+				cold: was_cold
+			},
+			userLists
 		};
 	}
-	return { books, currentPage, totalPages, totalBooks };
+	return {
+		books: firstBooks,
+		streamed: {
+			rest,
+			cold: was_cold
+		}
+	};
 };
 
 export const actions: Actions = {
 	/* Finished books list */
 	addToFinishedList: async ({ request, locals }) => {
-		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
 			return fail(400, { message: 'Only logged in users can add books' });

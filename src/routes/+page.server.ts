@@ -1,8 +1,16 @@
+import { db } from '$lib/server/db';
 import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { prisma } from '../lib/server/prisma';
 
 export const load: ServerLoad = async ({ locals }) => {
-	const books = await prisma.book.findMany();
+	const books = await db
+	.selectFrom("Book")
+	.selectAll()
+	.orderBy("title", "asc")
+	.execute();
+
+	console.log(books)
+
 	const { user } = await locals.validateUser();
 
 	if (user) {

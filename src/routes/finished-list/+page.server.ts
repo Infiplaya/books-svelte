@@ -1,10 +1,11 @@
 import { fail, redirect, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prisma';
+import { handleLoginRedirect } from '$lib/utils';
 
-export const load: ServerLoad = async ({ locals }) => {
-	const { user } = await locals.validateUser();
+export const load: ServerLoad = async (event) => {
+	const { user } = await event.locals.validateUser();
 	if (!user) {
-		throw redirect(307, '/login');
+		throw redirect(302, handleLoginRedirect(event));
 	}
 	return {
 		userLists: await prisma.user.findUnique({

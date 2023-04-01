@@ -10,11 +10,7 @@
 		searchTerms: string;
 	}
 
-	const allBooks = data.books.concat(data.streamed.rest);
-
-	console.log(allBooks);
-
-	const searchBooks: SearchBook[] = allBooks.map((book) => ({
+	const searchBooks: SearchBook[] = data.books.map((book) => ({
 		...book,
 		searchTerms: `${book.title} ${book.description}`
 	}));
@@ -31,11 +27,10 @@
 </svelte:head>
 
 <h1>Books</h1>
-<div>
+<div class="search-div">
 	<h2>Search</h2>
 	<input type="search" placeholder="Search..." bind:value={$searchStore.search} />
 </div>
-
 <section class="books">
 	{#if $searchStore.filtered.length === 0}
 		No results...
@@ -68,6 +63,7 @@
 		align-items: center;
 		flex-direction: column;
 		gap: 40px;
+		margin-top: 5rem;
 	}
 
 	h1 {

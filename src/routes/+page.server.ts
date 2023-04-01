@@ -1,43 +1,8 @@
 import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { prisma } from '../lib/server/prisma';
 
-let cold = true;
-
 export const load: ServerLoad = async ({ locals }) => {
-	// const page = url.searchParams.get('page');
-	// const search = url.searchParams.get('search');
-	// const booksPerPage = 10;
-	// const currentPage = page ? parseInt(page) : 1;
-	// const offset = (currentPage - 1) * booksPerPage;
-
-	// const totalBooks = await prisma.book.count();
-	// const totalPages = Math.ceil(totalBooks / booksPerPage);
-
-	// const books = await prisma.book.findMany({
-	// 	where: {
-	// 		OR: [
-	// 			{ title: { contains: search ?? '', mode: 'insensitive' } },
-	// 			{ description: { contains: search ?? '', mode: 'insensitive' } },
-	// 			{ author: { contains: search ?? '', mode: 'insensitive' } }
-	// 		]
-	// 	},
-	// 	skip: offset,
-	// 	take: booksPerPage,
-	// 	orderBy: { title: 'asc' }
-	// });
-
-	const was_cold = cold;
-
-	cold = false;
-
-	const firstBooks = await prisma.book.findMany({
-		take: 2
-	});
-
-	const rest = await prisma.book.findMany({
-		skip: 2
-	});
-
+	const books = await prisma.book.findMany();
 	const { user } = await locals.validateUser();
 
 	if (user) {
@@ -51,20 +16,12 @@ export const load: ServerLoad = async ({ locals }) => {
 			}
 		});
 		return {
-			books: firstBooks,
-			streamed: {
-				rest,
-				cold: was_cold
-			},
+			books,
 			userLists
 		};
 	}
 	return {
-		books: firstBooks,
-		streamed: {
-			rest,
-			cold: was_cold
-		}
+		books
 	};
 };
 

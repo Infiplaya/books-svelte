@@ -1,6 +1,10 @@
 import { db } from '$lib/server/db';
-import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
+import { fail, type Actions, type Config, type ServerLoad } from '@sveltejs/kit';
 import { prisma } from '../lib/server/prisma';
+
+export const config: Config = {
+	runtime: 'edge'
+};
 
 export const load: ServerLoad = async ({ locals }) => {
 	const books = await db.selectFrom('Book').selectAll().orderBy('title', 'asc').execute();

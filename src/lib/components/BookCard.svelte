@@ -19,7 +19,6 @@
 		}
 	}
 
-	console.log(userLists?.readingList)
 
 	let readingLoading = false;
 	let finishedLoading = false;

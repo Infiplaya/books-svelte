@@ -19,7 +19,6 @@
 		}
 	}
 
-
 	let readingLoading = false;
 	let finishedLoading = false;
 

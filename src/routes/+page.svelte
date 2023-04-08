@@ -29,31 +29,46 @@
 </svelte:head>
 
 <h1>Books</h1>
-<input type="text" on:input={() => filterBooks} bind:value={search} />
-<section class="books">
-	{#await data.streamed.books}
-		Loading...
-	{:then books}
-		{#each filterBooks(books, search) as book}
-			<BookCard {book} {userLists} {form} />
-		{/each}
-	{:catch error}
-		{error.message}
-	{/await}
+<section class="container">
+	<label for="search-books">Search</label>
+	<input type="text" on:input={() => filterBooks} bind:value={search} id="search-books" />
+	<section class="books">
+		{#await data.streamed.books}
+			Loading...
+		{:then books}
+			{#each filterBooks(books, search) as book}
+				<BookCard {book} {userLists} {form} />
+			{/each}
+			{#if filterBooks(books, search).length === 0}
+				<h3>No books</h3>
+			{/if}
+		{:catch error}
+			{error.message}
+		{/await}
+	</section>
 </section>
 
 <style>
+	.container {
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	label {
+		font-size: 1.2rem;
+	}
 	input {
 		display: block;
-		padding: 0.625rem;
-		padding-left: 2.5rem;
+		padding-top: 0.3rem;
+		padding-bottom: 0.3rem;
 		background-color: #f9fafb;
 		color: #111827;
 		font-size: 0.875rem;
 		line-height: 1.25rem;
-		width: 100%;
 		border-width: 1px;
 		border-color: #d1d5db;
+		width: 100%;
 	}
 
 	input:focus {
@@ -70,5 +85,13 @@
 
 	h1 {
 		margin: 20px 0px;
+	}
+
+	@media (min-width: 680px) {
+		input {
+			width: 460px;
+			margin-left: 0;
+			margin-right: 0;
+		}
 	}
 </style>

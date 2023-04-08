@@ -33,18 +33,12 @@
 	<label for="search-books">Search</label>
 	<input type="text" on:input={() => filterBooks} bind:value={search} id="search-books" />
 	<section class="books">
-		{#await data.streamed.books}
-			Loading...
-		{:then books}
-			{#each filterBooks(books, search) as book}
-				<BookCard {book} {userLists} {form} />
-			{/each}
-			{#if filterBooks(books, search).length === 0}
-				<h3>No books</h3>
-			{/if}
-		{:catch error}
-			{error.message}
-		{/await}
+		{#each filterBooks(data.books, search) as book}
+			<BookCard {book} {userLists} {form} />
+		{/each}
+		{#if filterBooks(data.books, search).length === 0}
+			<h3>No books</h3>
+		{/if}
 	</section>
 </section>
 

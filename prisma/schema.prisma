@@ -29,6 +29,7 @@ model User {
   Key          Key[]
   readingList  Book[]    @relation("Want Read")
   finishedList Book[]    @relation("Finished")
+  comments     Comment[]
 
   @@map("user")
 }
@@ -46,12 +47,27 @@ model Key {
 }
 
 model Book {
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
   title         String
   author        String
-  description   String   @db.Text
-  image         String   @db.Text
-  usersWantRead User[]   @relation("Want Read")
-  usersFinished User[]   @relation("Finished")
+  description   String    @db.Text
+  image         String    @db.Text
+  usersWantRead User[]    @relation("Want Read")
+  usersFinished User[]    @relation("Finished")
+  comments      Comment[]
+}
+
+model Comment {
+  id        String   @id @unique
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  book      Book     @relation(fields: [bookId], references: [id])
+  bookId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+
+  @@index([userId])
+  @@index([bookId])
 }

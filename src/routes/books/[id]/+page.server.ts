@@ -7,6 +7,13 @@ export const load: ServerLoad = async ({ params, locals }) => {
 	const book = await prisma.book.findUnique({
 		where: {
 			id: parseInt(params.id ? params.id : '')
+		},
+		include: {
+			comments: {
+				include: {
+					user: true
+				}
+			}
 		}
 	});
 
@@ -159,6 +166,36 @@ export const actions: Actions = {
 		} catch (err) {
 			console.error(err);
 			return fail(500, { message: 'Could not add this book' });
+		}
+
+		return {
+			status: 201
+		};
+	},
+
+	addComment: async ({ request, locals }) => {
+		// Get the current user
+		const { user, session } = await locals.validateUser();
+		if (!(user && session)) {
+			return fail(400, { message: 'Only logged in users can add comments' });
+		}
+
+		const { id: bookId, text } = Object.fromEntries(await request.formData()) as Record<
+			string,
+			string
+		>;
+
+		try {
+			await prisma.comment.create({
+				data: {
+					text: text,
+					bookId: parseInt(bookId),
+					userId: user.userId
+				}
+			});
+		} catch (err) {
+			console.error(err);
+			return fail(400, { message: 'Could not remove this book' });
 		}
 
 		return {

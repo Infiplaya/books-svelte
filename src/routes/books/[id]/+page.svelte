@@ -89,9 +89,58 @@
 			<p class="description">{book.description}</p>
 		</div>
 	</div>
+
+	<section class="comments">
+		<form action="?/addComment" method="POST" use:enhance class="comment-form">
+			<input type="hidden" value={book.id} id="id" name="id" />
+			<label for="text">Type a comment</label>
+			<textarea id="text" name="text" />
+			<button type="submit" class="primary-button">Submit</button>
+		</form>
+		<h3>Comments</h3>
+		{#each book.comments as comment}
+			<div class="comment">
+				<p class="author">{comment.user.username}:</p>
+				<p>{comment.text}</p>
+			</div>
+		{/each}
+	</section>
 </section>
 
 <style>
+	textarea {
+		resize: none;
+		height: 5rem;
+		width: 50%;
+		font-size: 1rem;
+	}
+
+	h3 {
+		margin-top: 1rem;
+	}
+
+	.comment-form {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		align-items: flex-start;
+	}
+	.comments {
+		margin-top: 2rem;
+	}
+
+	.author {
+		font-weight: 700;
+	}
+
+	.comment {
+		display: flex;
+		gap: 1rem;
+		padding: 1rem;
+		background-color: gainsboro;
+		border-radius: 10px;
+		margin-top: 0.5rem;
+	}
 	.error {
 		color: var(--color-theme-2);
 		margin-top: 5px;

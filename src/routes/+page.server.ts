@@ -3,7 +3,7 @@ import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { prisma } from '../lib/server/prisma';
 
 export const load: ServerLoad = async ({ locals }) => {
-	const books = await db.selectFrom('Book').selectAll().orderBy('title', 'asc').execute();
+	const books = db.selectFrom('Book').selectAll().orderBy('title', 'asc').execute();
 
 	const { user } = await locals.validateUser();
 
@@ -18,12 +18,14 @@ export const load: ServerLoad = async ({ locals }) => {
 			}
 		});
 		return {
-			books,
+			streamed: {
+				books
+			},
 			userLists
 		};
 	}
 	return {
-		books
+		streamed: { books }
 	};
 };
 

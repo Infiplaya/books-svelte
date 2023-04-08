@@ -44,7 +44,7 @@
 <div class="book-card">
 	<a href="/books/{book.id}">
 		<div class="card-grid">
-			<img src={book.image} alt={book.title} class="book-img" width="150" />
+			<img src={book.image} alt={book.title} class="book-img" width="150" loading="lazy" />
 			<div class="info">
 				<h2>{book.title}</h2>
 				<h3>{book.author}</h3>

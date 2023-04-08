@@ -1,25 +1,26 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import BookCard from '../lib/components/BookCard.svelte';
-	import { createSearchStore, searchHandler } from '$lib/stores/search';
 	import type { Book } from '@prisma/client';
-	import { onDestroy } from 'svelte';
 	export let data: PageData;
 	$: ({ userLists } = data);
 	export let form;
-	interface SearchBook extends Book {
-		searchTerms: string;
-	}
 
-	const searchBooks: SearchBook[] = data.books.map((book) => ({
-		...book,
-		searchTerms: `${book.title} ${book.description}`
-	}));
-	const searchStore = createSearchStore(searchBooks);
-	const unsubscribe = searchStore.subscribe((model) => searchHandler(model));
-	onDestroy(() => {
-		unsubscribe();
-	});
+	let search = '';
+
+	function filterBooks(books: Book[], search: string) {
+		const keywords = search
+			.toLowerCase()
+			.split(' ')
+			.filter((s) => s !== '');
+		if (keywords.length === 0) {
+			return books;
+		}
+		return books.filter((book) => {
+			const words = (book.title + ' ' + book.author).toLowerCase().split(' ');
+			return keywords.every((kw) => words.some((w) => w.startsWith(kw)));
+		});
+	}
 </script>
 
 <svelte:head>
@@ -28,17 +29,17 @@
 </svelte:head>
 
 <h1>Books</h1>
-<div class="search-div">
-	<h2>Search</h2>
-	<input type="search" placeholder="Search..." bind:value={$searchStore.search} />
-</div>
+<input type="text" on:input={() => filterBooks} bind:value={search} />
 <section class="books">
-	{#if $searchStore.filtered.length === 0}
-		No results...
-	{/if}
-	{#each $searchStore.filtered as book}
-		<BookCard {book} {userLists} {form} />
-	{/each}
+	{#await data.streamed.books}
+		Loading...
+	{:then books}
+		{#each filterBooks(books, search) as book}
+			<BookCard {book} {userLists} {form} />
+		{/each}
+	{:catch error}
+		{error.message}
+	{/await}
 </section>
 
 <style>

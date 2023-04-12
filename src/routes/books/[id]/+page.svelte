@@ -5,6 +5,8 @@
 	import FaBookmark from 'svelte-icons/fa/FaBookmark.svelte';
 	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte';
 	import FaCheckCircle from 'svelte-icons/fa/FaCheckCircle.svelte';
+	import ReadingButton from '$lib/components/ReadingButton.svelte';
+	import FinishedButton from '$lib/components/FinishedButton.svelte';
 
 	export let data: PageData;
 	$: ({ book, userLists } = data);
@@ -43,42 +45,8 @@
 		<div class="left-panel">
 			<img src={book.image} alt={book.title} width="200" class="book-img" />
 			<div class="action-buttons">
-				{#if readingLoading}
-					<div class="lds-hourglass" />
-				{:else if userLists?.readingList.map((item) => item.id).includes(book.id)}
-					<form action="?/removeFromReadingList" method="POST" use:enhance={handleReadingLoading}>
-						<input type="hidden" value={book.id} id="id" name="id" />
-
-						<button class="icon" aria-current="true" type="submit" title="Remove from reading list">
-							<FaBookmark />
-						</button>
-					</form>
-				{:else}
-					<form action="?/addToReadingList" method="POST" use:enhance={handleReadingLoading}>
-						<input type="hidden" value={book.id} id="id" name="id" />
-						<button class="icon" type="submit" title="Add to reading list">
-							<FaRegBookmark />
-						</button>
-					</form>
-				{/if}
-
-				{#if finishedLoading}
-					<div class="lds-hourglass" />
-				{:else if userLists?.finishedList.map((item) => item.id).includes(book.id)}
-					<form action="?/removeFromFinishedList" method="POST" use:enhance={handleFinishedLoading}>
-						<input type="hidden" value={book.id} id="id" name="id" />
-						<button class="icon" type="submit" aria-current="true" title="Mark as unfinished">
-							<FaCheckCircle />
-						</button>
-					</form>
-				{:else}
-					<form action="?/addToFinishedList" method="POST" use:enhance={handleFinishedLoading}>
-						<input type="hidden" value={book.id} id="id" name="id" />
-						<button class="icon" type="submit" title="Add to finished">
-							<FaPlusCircle />
-						</button>
-					</form>
-				{/if}
+				<ReadingButton {userLists} {book} />
+				<FinishedButton {userLists} {book} />
 				{#if form?.message}<p class="error">Sign in to perform this action!</p>{/if}
 			</div>
 		</div>
@@ -159,23 +127,7 @@
 		background-color: var(--color-white);
 		padding: 20px;
 	}
-	.icon {
-		background-color: transparent;
-		border: none;
-		width: 36px;
-		height: 36px;
-		cursor: pointer;
-		color: var(--color-theme-1);
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}
-	.icon:hover {
-		transform: scale(1.2);
-	}
-
-	.icon[aria-current='true'] {
-		color: var(--color-theme-3);
-	}
+	
 
 	.book-img {
 		box-shadow: 1px 1px 10px;
@@ -207,23 +159,7 @@
 		margin-top: 20px;
 	}
 
-	.lds-hourglass {
-		display: inline-block;
-		position: relative;
-		width: 36px;
-		height: 36px;
-	}
-	.lds-hourglass:after {
-		content: ' ';
-		display: block;
-		border-radius: 50%;
-		width: 0;
-		height: 0;
-		box-sizing: border-box;
-		border: 20px solid var(--color-theme-2);
-		border-color: var(--color-theme-2) transparent var(--color-theme-2) transparent;
-		animation: lds-hourglass 1.2s infinite;
-	}
+
 	@keyframes lds-hourglass {
 		0% {
 			transform: rotate(0);

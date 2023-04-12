@@ -95,7 +95,7 @@
 			<input type="hidden" value={book.id} id="id" name="id" />
 			<label for="text">Type a comment</label>
 			<textarea id="text" name="text" />
-			<button type="submit" class="primary-button">Submit</button>
+			<button type="submit" class="primary-button">Send</button>
 		</form>
 		<h3>Comments</h3>
 		{#each book.comments as comment}
@@ -111,12 +111,14 @@
 	textarea {
 		resize: none;
 		height: 5rem;
-		width: 50%;
+		width: 100%;
 		font-size: 1rem;
+		border-radius: 10px;
 	}
 
 	h3 {
-		margin-top: 1rem;
+		margin-top: 1.5rem;
+		margin-bottom: 1rem;
 	}
 
 	.comment-form {
@@ -137,9 +139,10 @@
 		display: flex;
 		gap: 1rem;
 		padding: 1rem;
-		background-color: gainsboro;
+		box-shadow: 0px 0px 4px rgba(0,0,0, 0.25);
+		border: 1px solid rgba(0,0,0,0.1);
 		border-radius: 10px;
-		margin-top: 0.5rem;
+		margin-top: 2rem;
 	}
 	.error {
 		color: var(--color-theme-2);
@@ -235,7 +238,7 @@
 		}
 	}
 
-	@media (min-width: 640px) {
+	@media (min-width: 1028px) {
 		.card-grid {
 			display: grid;
 			grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -244,6 +247,10 @@
 
 		.book {
 			padding: 80px;
+		}
+
+		textarea {
+			width: 65%;
 		}
 	}
 </style>

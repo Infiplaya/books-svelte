@@ -118,7 +118,7 @@
 
 	h3 {
 		margin-top: 1.5rem;
-		margin-bottom: 1rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.comment-form {
@@ -139,8 +139,8 @@
 		display: flex;
 		gap: 1rem;
 		padding: 1rem;
-		box-shadow: 0px 0px 4px rgba(0,0,0, 0.25);
-		border: 1px solid rgba(0,0,0,0.1);
+		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+		border: 1px solid rgba(0, 0, 0, 0.1);
 		border-radius: 10px;
 		margin-top: 2rem;
 	}

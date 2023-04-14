@@ -1,10 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
-	import FaRegBookmark from 'svelte-icons/fa/FaRegBookmark.svelte';
-	import FaBookmark from 'svelte-icons/fa/FaBookmark.svelte';
-	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte';
-	import FaCheckCircle from 'svelte-icons/fa/FaCheckCircle.svelte';
 	import ReadingButton from '$lib/components/ReadingButton.svelte';
 	import FinishedButton from '$lib/components/FinishedButton.svelte';
 

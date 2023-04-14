@@ -29,10 +29,10 @@
 </svelte:head>
 
 <h1>Books</h1>
-<section class="container">
+<section class="container" id="container">
 	<label for="search-books">Search</label>
 	<input type="text" on:input={() => filterBooks} bind:value={search} id="search-books" />
-	<section class="books">
+	<section class="books" id="books">
 		{#each filterBooks(data.books, search) as book}
 			<BookCard {book} {userLists} {form} />
 		{/each}

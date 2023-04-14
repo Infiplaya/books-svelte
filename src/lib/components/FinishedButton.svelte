@@ -2,8 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { Book } from '@prisma/client';
 	import type { PageData } from '../../routes/$types';
-	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte';
-	import FaCheckCircle from 'svelte-icons/fa/FaCheckCircle.svelte';
+	import FaCheck from 'svelte-icons/fa/FaCheck.svelte';
 
 	let finishedLoading = false;
 
@@ -25,40 +24,38 @@
 {:else if userLists?.finishedList.map((item) => item.id).includes(book.id)}
 	<form action="?/removeFromFinishedList" method="POST" use:enhance={handleFinishedLoading}>
 		<input type="hidden" value={book.id} id="id" name="id" />
-		<button class="icon" type="submit" aria-current="true" title="Mark as unfinished">
-			<FaCheckCircle />
+		<button aria-current="true" type="submit" title="Remove from reading list">
+			<div class="flex">
+				<div class="icon"><FaCheck /></div>
+				<span>Finished</span>
+			</div>
 		</button>
 	</form>
 {:else}
 	<form action="?/addToFinishedList" method="POST" use:enhance={handleFinishedLoading}>
 		<input type="hidden" value={book.id} id="id" name="id" />
-		<button class="icon" type="submit" title="Add to finished">
-			<FaPlusCircle />
-		</button>
+		<button type="submit" title="Add to finished">Finished</button>
 	</form>
 {/if}
 
 <style>
-	.icon {
-		background-color: transparent;
-		border: none;
-		width: 36px;
-		height: 36px;
+	button {
 		cursor: pointer;
-		color: var(--color-theme-1);
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		transition: all;
-		transition-duration: 200ms;
-	}
-	.icon:hover {
-		transform: scale(1.2);
+		padding: 0.25rem 1rem;
 	}
 
-	.icon[aria-current='true'] {
-		color: var(--color-theme-3);
+	.icon {
+		width: 1rem;
+		height: 1rem;
 	}
-
+	.flex {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+	}
+	button[aria-current='true'] {
+		background-color: rgba(8, 255, 82, 0.25);
+	}
 	.lds-hourglass {
 		display: inline-block;
 		position: relative;

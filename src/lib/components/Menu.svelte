@@ -9,13 +9,8 @@
 	<a class="link" href="/" aria-current={$page.url.pathname === '/' ? 'page' : undefined}>Home</a>
 	<a
 		class="link"
-		href="/reading-list"
-		aria-current={$page.url.pathname === '/reading-list' ? 'page' : undefined}>Reading list</a
-	>
-	<a
-		class="link"
-		href="/finished-list"
-		aria-current={$page.url.pathname === '/finished-list' ? 'page' : undefined}>Finished list</a
+		href="/library"
+		aria-current={$page.url.pathname === '/library' ? 'page' : undefined}>My Library</a
 	>
 	{#if user}
 		<form method="POST" action="/logout">

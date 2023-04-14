@@ -24,7 +24,9 @@ export const load: ServerLoad = async ({ params, locals }) => {
 			},
 			include: {
 				finishedList: true,
-				readingList: true
+				wantToRead: true,
+				favorites: true,
+				justReading: true
 			}
 		});
 		return {
@@ -48,7 +50,7 @@ export const actions: Actions = {
 		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
-			return fail(400, { message: 'Only logged in users can add books' });
+			return fail(500, { message: 'Only logged in users can add books' });
 		}
 
 		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
@@ -108,12 +110,12 @@ export const actions: Actions = {
 		};
 	},
 
-	/* Books read list */
+	/* User reading list */
 	addToReadingList: async ({ request, locals }) => {
 		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
-			return fail(400, { message: 'Only logged in users can add books' });
+			return fail(500, { message: 'Only logged in users can add books' });
 		}
 
 		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
@@ -124,7 +126,7 @@ export const actions: Actions = {
 					id: user.userId
 				},
 				data: {
-					readingList: {
+					justReading: {
 						connect: {
 							id: parseInt(bookId)
 						}
@@ -133,7 +135,7 @@ export const actions: Actions = {
 			});
 		} catch (err) {
 			console.error(err);
-			return fail(400, { message: 'Could not remove this book' });
+			return fail(500, { message: 'Could not remove this book' });
 		}
 
 		return {
@@ -145,7 +147,7 @@ export const actions: Actions = {
 		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
-			return fail(400, { message: 'Only logged in users can add books' });
+			return fail(500, { message: 'Only logged in users can add books' });
 		}
 
 		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
@@ -156,7 +158,7 @@ export const actions: Actions = {
 					id: user.userId
 				},
 				data: {
-					readingList: {
+					justReading: {
 						disconnect: {
 							id: parseInt(bookId)
 						}
@@ -173,29 +175,129 @@ export const actions: Actions = {
 		};
 	},
 
-	addComment: async ({ request, locals }) => {
+	/* User favorites list */
+	addToFavorites: async ({ request, locals }) => {
 		// Get the current user
 		const { user, session } = await locals.validateUser();
 		if (!(user && session)) {
-			return fail(400, { message: 'Only logged in users can add comments' });
+			return fail(500, { message: 'Only logged in users can add books' });
 		}
 
-		const { id: bookId, text } = Object.fromEntries(await request.formData()) as Record<
-			string,
-			string
-		>;
+		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
 
 		try {
-			await prisma.comment.create({
+			await prisma.user.update({
+				where: {
+					id: user.userId
+				},
 				data: {
-					text: text,
-					bookId: parseInt(bookId),
-					userId: user.userId
+					favorites: {
+						connect: {
+							id: parseInt(bookId)
+						}
+					}
 				}
 			});
 		} catch (err) {
 			console.error(err);
-			return fail(400, { message: 'Could not remove this book' });
+			return fail(500, { message: 'Could not remove this book' });
+		}
+
+		return {
+			status: 201
+		};
+	},
+
+	removeFromFavorites: async ({ request, locals }) => {
+		// Get the current user
+		const { user, session } = await locals.validateUser();
+		if (!(user && session)) {
+			return fail(500, { message: 'Only logged in users can add books' });
+		}
+
+		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
+
+		try {
+			await prisma.user.update({
+				where: {
+					id: user.userId
+				},
+				data: {
+					favorites: {
+						disconnect: {
+							id: parseInt(bookId)
+						}
+					}
+				}
+			});
+		} catch (err) {
+			console.error(err);
+			return fail(500, { message: 'Could not add this book' });
+		}
+
+		return {
+			status: 201
+		};
+	},
+
+	/* User reading list */
+	addToWantToRead: async ({ request, locals }) => {
+		// Get the current user
+		const { user, session } = await locals.validateUser();
+		if (!(user && session)) {
+			return fail(500, { message: 'Only logged in users can add books' });
+		}
+
+		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
+
+		try {
+			await prisma.user.update({
+				where: {
+					id: user.userId
+				},
+				data: {
+					wantToRead: {
+						connect: {
+							id: parseInt(bookId)
+						}
+					}
+				}
+			});
+		} catch (err) {
+			console.error(err);
+			return fail(500, { message: 'Could not remove this book' });
+		}
+
+		return {
+			status: 201
+		};
+	},
+
+	removeWantToRead: async ({ request, locals }) => {
+		// Get the current user
+		const { user, session } = await locals.validateUser();
+		if (!(user && session)) {
+			return fail(500, { message: 'Only logged in users can add books' });
+		}
+
+		const { id: bookId } = Object.fromEntries(await request.formData()) as Record<string, string>;
+
+		try {
+			await prisma.user.update({
+				where: {
+					id: user.userId
+				},
+				data: {
+					wantToRead: {
+						disconnect: {
+							id: parseInt(bookId)
+						}
+					}
+				}
+			});
+		} catch (err) {
+			console.error(err);
+			return fail(500, { message: 'Could not add this book' });
 		}
 
 		return {

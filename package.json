@@ -40,6 +40,7 @@
 		"@lucia-auth/adapter-prisma": "^0.6.0",
 		"@lucia-auth/sveltekit": "^0.6.10",
 		"@prisma/client": "^4.11.0",
+		"@rgossiaux/svelte-headlessui": "^1.0.2",
 		"@sveltejs/adapter-vercel": "^2.4.0",
 		"cross-fetch": "^3.1.5",
 		"ioredis": "^5.3.1",

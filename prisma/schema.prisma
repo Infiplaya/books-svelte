@@ -27,8 +27,10 @@ model User {
   username     String    @unique
   session      Session[]
   Key          Key[]
-  readingList  Book[]    @relation("Want Read")
+  wantToRead   Book[]    @relation("Want Read")
+  justReading  Book[]    @relation("Just Reading")
   finishedList Book[]    @relation("Finished")
+  favorites    Book[]    @relation("Favorites")
   comments     Comment[]
 
   @@map("user")
@@ -47,15 +49,17 @@ model Key {
 }
 
 model Book {
-  id            Int       @id @default(autoincrement())
-  createdAt     DateTime  @default(now())
-  title         String
-  author        String
-  description   String    @db.Text
-  image         String    @db.Text
-  usersWantRead User[]    @relation("Want Read")
-  usersFinished User[]    @relation("Finished")
-  comments      Comment[]
+  id             Int       @id @default(autoincrement())
+  createdAt      DateTime  @default(now())
+  title          String
+  author         String
+  description    String    @db.Text
+  image          String    @db.Text
+  usersWantRead  User[]    @relation("Want Read")
+  usersFinished  User[]    @relation("Finished")
+  usersReading   User[]    @relation("Just Reading")
+  usersFavorites User[]    @relation("Favorites")
+  comments       Comment[]
 }
 
 model Comment {

@@ -1,41 +1,40 @@
 <script lang="ts">
-	import FaCheck from 'svelte-icons/fa/FaCheck.svelte';
 	import { enhance } from '$app/forms';
-	import type { PageData } from '../../routes/$types';
 	import type { Book } from '@prisma/client';
+	import type { PageData } from '../../routes/$types';
+	import FaCheck from 'svelte-icons/fa/FaCheck.svelte';
 
-	export let userLists: PageData['userLists'];
-	export let book: Book;
+	let finishedLoading = false;
 
-	let readingLoading = false;
-
-	function handleReadingLoading() {
-		readingLoading = true;
+	function handleFinishedLoading() {
+		finishedLoading = true;
 
 		return async ({ update }: { update: () => Promise<void> }) => {
 			await update();
-			readingLoading = false;
+			finishedLoading = false;
 		};
 	}
+
+	export let userLists: PageData['userLists'];
+	export let book: Book;
 </script>
 
-{#if readingLoading}
+{#if finishedLoading}
 	<div class="lds-hourglass" />
-{:else if userLists?.justReading.map((item) => item.id).includes(book.id)}
-	<form action="?/removeFromReadingList" method="POST" use:enhance={handleReadingLoading}>
+{:else if userLists?.favorites.map((item) => item.id).includes(book.id)}
+	<form action="?/removeFromFavorites" method="POST" use:enhance={handleFinishedLoading}>
 		<input type="hidden" value={book.id} id="id" name="id" />
-
 		<button aria-current="true" type="submit" title="Remove from reading list">
 			<div class="flex">
 				<div class="icon"><FaCheck /></div>
-				<span>Reading</span>
+				<span>Favorite</span>
 			</div>
 		</button>
 	</form>
 {:else}
-	<form action="?/addToReadingList" method="POST" use:enhance={handleReadingLoading}>
+	<form action="?/addToFavorites" method="POST" use:enhance={handleFinishedLoading}>
 		<input type="hidden" value={book.id} id="id" name="id" />
-		<button type="submit" title="Add to reading list"> Reading </button>
+		<button type="submit" title="Add to finished">Favorite</button>
 	</form>
 {/if}
 
@@ -44,6 +43,7 @@
 		cursor: pointer;
 		padding: 0.25rem 1rem;
 	}
+
 	.icon {
 		width: 1rem;
 		height: 1rem;
@@ -57,6 +57,7 @@
 	button[aria-current='true'] {
 		background-color: rgba(8, 255, 82, 0.25);
 	}
+
 	.lds-hourglass {
 		display: inline-block;
 		position: relative;

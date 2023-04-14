@@ -1,10 +1,13 @@
 # Bookz
+
 App that lets users explore new books!
+
 ## Introduction
 
 As a first-time Svelte user, I recently had the opportunity to build a web application using SvelteKit and Prisma. The application includes features such as authentication, book database management, the ability to add books to reading lists, and the display of individual book pages. I used Lucia for authentication and an external API for the book data.
 
 # Stack
+
 - Svelte
 - Prisma
 - Lucia Auth

@@ -3,6 +3,8 @@
 	import type { PageData } from './$types';
 	import ReadingButton from '$lib/components/ReadingButton.svelte';
 	import FinishedButton from '$lib/components/FinishedButton.svelte';
+	import WantToRead from '$lib/components/WantToRead.svelte';
+	import FavoriteButton from '$lib/components/FavoriteButton.svelte';
 
 	export let data: PageData;
 	$: ({ book, userLists } = data);
@@ -36,13 +38,15 @@
 	<meta name="description" content="Books app" />
 </svelte:head>
 
-<section class="book">
+<section class="book" id="book">
 	<div class="card-grid">
 		<div class="left-panel">
 			<img src={book.image} alt={book.title} width="200" class="book-img" />
 			<div class="action-buttons">
 				<ReadingButton {userLists} {book} />
 				<FinishedButton {userLists} {book} />
+				<WantToRead {userLists} {book} />
+				<FavoriteButton {userLists} {book} />
 				{#if form?.message}<p class="error">Sign in to perform this action!</p>{/if}
 			</div>
 		</div>
@@ -54,7 +58,7 @@
 		</div>
 	</div>
 
-	<section class="comments">
+	<section class="comments" id="comments">
 		<form action="?/addComment" method="POST" use:enhance class="comment-form">
 			<input type="hidden" value={book.id} id="id" name="id" />
 			<label for="text">Type a comment</label>
@@ -123,7 +127,6 @@
 		background-color: var(--color-white);
 		padding: 20px;
 	}
-	
 
 	.book-img {
 		box-shadow: 1px 1px 10px;
@@ -153,8 +156,8 @@
 		display: flex;
 		gap: 10px;
 		margin-top: 20px;
+		flex-wrap: wrap;
 	}
-
 
 	@keyframes lds-hourglass {
 		0% {
@@ -174,7 +177,7 @@
 		.card-grid {
 			display: grid;
 			grid-template-columns: repeat(12, minmax(0, 1fr));
-			gap: 40px;
+			gap: 100px;
 		}
 
 		.book {

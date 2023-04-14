@@ -3,6 +3,10 @@
 	import type { ActionData, PageData } from '../../routes/$types';
 	import ReadingButton from './ReadingButton.svelte';
 	import FinishedButton from './FinishedButton.svelte';
+	import FavoriteButton from './FavoriteButton.svelte';
+
+	import { Popover, PopoverButton, PopoverPanel } from '@rgossiaux/svelte-headlessui';
+	import WantToRead from './WantToRead.svelte';
 
 	export let book: Book;
 	export let userLists: PageData['userLists'];
@@ -28,19 +32,33 @@
 			</div>
 		</div>
 	</a>
-	<div class="flex">
-		<div class="action-buttons">
-			<ReadingButton {userLists} {book} />
-			<FinishedButton {userLists} {book} />
-		</div>
-		{#if form?.message}<p class="error">Sign in to perform this action!</p>{/if}
-	</div>
+	<Popover style="position: relative;">
+		<PopoverButton style="cursor: pointer;">Add to List</PopoverButton>
+
+		<PopoverPanel style="position: absolute; z-index: 10;">
+			<div class="flex popover-panel">
+				<div class="action-buttons">
+					<ReadingButton {userLists} {book} />
+					<FinishedButton {userLists} {book} />
+					<FavoriteButton {userLists} {book} />
+					<WantToRead {userLists} {book} />
+				</div>
+				{#if form?.message}<p class="error">Sign in to perform this action!</p>{/if}
+			</div>
+		</PopoverPanel>
+	</Popover>
 </div>
 
 <style>
 	.error {
 		color: var(--color-theme-2);
 		margin-top: 5px;
+	}
+
+	.popover-panel {
+		padding: 10px;
+		box-shadow: 0px 0px 4px rgb(190, 172, 172);
+		background-color: var(--color-white);
 	}
 
 	.book-card {
@@ -56,6 +74,11 @@
 		align-self: center;
 	}
 
+	.panel-contents {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
 	.flex {
 		display: flex;
 		align-items: center;
@@ -66,6 +89,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		flex-wrap: wrap;
 		gap: 0.5rem;
 	}
 

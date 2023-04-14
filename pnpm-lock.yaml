@@ -7,6 +7,7 @@ specifiers:
   '@neoconfetti/svelte': ^1.0.0
   '@playwright/test': ^1.28.1
   '@prisma/client': ^4.11.0
+  '@rgossiaux/svelte-headlessui': ^1.0.2
   '@sveltejs/adapter-auto': ^2.0.0
   '@sveltejs/adapter-vercel': ^2.4.0
   '@sveltejs/kit': ^1.5.0
@@ -35,6 +36,7 @@ dependencies:
   '@lucia-auth/adapter-prisma': 0.6.0_lucia-auth@0.9.1
   '@lucia-auth/sveltekit': 0.6.10_ohuczstdicckmwrm4ts7akpcve
   '@prisma/client': 4.11.0_prisma@4.11.0
+  '@rgossiaux/svelte-headlessui': 1.0.2_svelte@3.57.0
   '@sveltejs/adapter-vercel': 2.4.0_@sveltejs+kit@1.12.0
   cross-fetch: 3.1.5
   ioredis: 5.3.1
@@ -621,6 +623,14 @@ packages:
   /@prisma/engines/4.11.0:
     resolution: {integrity: sha512-0AEBi2HXGV02cf6ASsBPhfsVIbVSDC9nbQed4iiY5eHttW9ZtMxHThuKZE1pnESbr8HRdgmFSa/Kn4OSNYuibg==}
     requiresBuild: true
+    dev: false
+
+  /@rgossiaux/svelte-headlessui/1.0.2_svelte@3.57.0:
+    resolution: {integrity: sha512-sauopYTSivhzXe1kAvgawkhyYJcQlK8Li3p0d2OtcCIVprOzdbard5lbqWB4xHDv83zAobt2mR08oizO2poHLQ==}
+    peerDependencies:
+      svelte: ^3.44.0
+    dependencies:
+      svelte: 3.57.0
     dev: false
 
   /@rollup/pluginutils/4.2.1:

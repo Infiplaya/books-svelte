@@ -3,15 +3,14 @@
 	import type { Book } from '@prisma/client';
 	import type { PageData } from '../../routes/$types';
 	import FaCheck from 'svelte-icons/fa/FaCheck.svelte';
+	let loading = false;
 
-	let finishedLoading = false;
-
-	function handleFinishedLoading() {
-		finishedLoading = true;
+	function handleLoading() {
+		loading = true;
 
 		return async ({ update }: { update: () => Promise<void> }) => {
 			await update();
-			finishedLoading = false;
+			loading = false;
 		};
 	}
 
@@ -19,22 +18,30 @@
 	export let book: Book;
 </script>
 
-{#if finishedLoading}
-	<div class="lds-hourglass" />
-{:else if userLists?.finishedList.map((item) => item.id).includes(book.id)}
-	<form action="?/removeFromFinishedList" method="POST" use:enhance={handleFinishedLoading}>
+{#if userLists?.finishedList.map((item) => item.id).includes(book.id)}
+	<form action="?/removeFromFinishedList" method="POST" use:enhance={handleLoading}>
 		<input type="hidden" value={book.id} id="id" name="id" />
-		<button aria-current="true" type="submit" title="Remove from reading list">
-			<div class="flex">
-				<div class="icon"><FaCheck /></div>
-				<span>Finished</span>
-			</div>
+		<button aria-current="true" disabled={loading} type="submit">
+			{#if loading}
+				<span class="loader" />
+			{:else}
+				<div class="flex">
+					<div class="icon"><FaCheck /></div>
+					<span>Finished</span>
+				</div>
+			{/if}
 		</button>
 	</form>
 {:else}
-	<form action="?/addToFinishedList" method="POST" use:enhance={handleFinishedLoading}>
+	<form action="?/addToFinishedList" method="POST" use:enhance={handleLoading}>
 		<input type="hidden" value={book.id} id="id" name="id" />
-		<button type="submit" title="Add to finished">Finished</button>
+		<button type="submit" title="Add to finished" disabled={loading}
+			>{#if loading}
+				<span class="loader" />
+			{:else}
+				Finished
+			{/if}</button
+		>
 	</form>
 {/if}
 
@@ -42,48 +49,45 @@
 	button {
 		cursor: pointer;
 		padding: 0.25rem 1rem;
+		min-width: 8rem;
+		min-height: 2rem;
+		display: inline-flex;
+		justify-content: center;
+		background-color: var(--color-theme-1);
 	}
 
 	.icon {
-		width: 1rem;
-		height: 1rem;
+		width: 0.7rem;
+		height: 0.7rem;
 	}
 	.flex {
 		display: flex;
-		align-items: center;
-		gap: 5px;
+		align-items: baseline;
+		gap: 10px;
 	}
+
 	button[aria-current='true'] {
 		background-color: rgba(8, 255, 82, 0.25);
 	}
-	.lds-hourglass {
-		display: inline-block;
-		position: relative;
-		width: 36px;
-		height: 36px;
-	}
-	.lds-hourglass:after {
-		content: ' ';
-		display: block;
+
+	.loader {
+		width: 24px;
+		height: 24px;
+		border: 3px solid #252323;
+		border-bottom-color: transparent;
 		border-radius: 50%;
-		width: 0;
-		height: 0;
+		display: inline-block;
 		box-sizing: border-box;
-		border: 20px solid var(--color-theme-2);
-		border-color: var(--color-theme-2) transparent var(--color-theme-2) transparent;
-		animation: lds-hourglass 1.2s infinite;
+		animation: rotation 1s linear infinite;
+		text-align: center;
 	}
-	@keyframes lds-hourglass {
+
+	@keyframes rotation {
 		0% {
-			transform: rotate(0);
-			animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-		}
-		50% {
-			transform: rotate(900deg);
-			animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+			transform: rotate(0deg);
 		}
 		100% {
-			transform: rotate(1800deg);
+			transform: rotate(360deg);
 		}
 	}
 </style>

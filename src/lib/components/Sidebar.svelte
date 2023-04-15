@@ -22,8 +22,7 @@
 <aside class="sidebar" class:open>
 	<nav class="sidebar-nav">
 		<a class="link" href="/" on:click={closeNav}>Home</a>
-		<a class="link" href="/reading-list" on:click={closeNav}>Reading list</a>
-		<a class="link" href="/finished-list" on:click={closeNav}>Finished list</a>
+		<a class="link" href="/library" on:click={closeNav}>My library</a>
 		{#if user}
 			<form method="POST" action="/logout">
 				<button class="primary-button">Logout</button>

@@ -86,6 +86,7 @@
 
 	.buttons {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		gap: 10px;
 		margin-top: 1rem;

@@ -65,6 +65,8 @@
 			<textarea id="text" name="text" />
 			<button type="submit" class="primary-button">Send</button>
 		</form>
+		{#if form?.comment}<p class="error">{form.comment}</p>{/if}
+		{#if form?.text}<p class="error">{form.text}</p>{/if}
 		<h3>Comments</h3>
 		{#each book.comments as comment}
 			<div class="comment">

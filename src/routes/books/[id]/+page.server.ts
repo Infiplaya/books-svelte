@@ -45,6 +45,40 @@ export const load: ServerLoad = async ({ params, locals }) => {
 };
 
 export const actions: Actions = {
+	addComment: async ({ request, locals }) => {
+		// Get the current user
+		const { user, session } = await locals.validateUser();
+		if (!(user && session)) {
+			return fail(400, { comment: 'Only logged in users can add comments' });
+		}
+
+		const { id: bookId, text } = Object.fromEntries(await request.formData()) as Record<
+			string,
+			string
+		>;
+
+		if (text === '') {
+			return fail(400, { text: 'Comment cannot be empty!' });
+		}
+
+		try {
+			await prisma.comment.create({
+				data: {
+					text: text,
+					bookId: parseInt(bookId),
+					userId: user.userId
+				}
+			});
+		} catch (err) {
+			console.error(err);
+			return fail(400, { message: 'Could not remove this book' });
+		}
+
+		return {
+			status: 201
+		};
+	},
+
 	/* Finished books list */
 	addToFinishedList: async ({ request, locals }) => {
 		// Get the current user
